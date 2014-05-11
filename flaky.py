@@ -6,7 +6,7 @@ yet-powerful-static-website-generator-with-flask/.
 
 """
 
-import sys
+import argparse
 
 from flask import Flask, render_template
 from flask_flatpages import FlatPages
@@ -40,7 +40,12 @@ def page(path):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == "build":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('cmd', choices={'serve', 'build'}, nargs='?',
+                        default='serve')
+    args = parser.parse_args()
+
+    if args.cmd == 'build':
         freezer.freeze()
     else:
         app.run(port=8000)

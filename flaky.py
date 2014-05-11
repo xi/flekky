@@ -7,6 +7,7 @@ yet-powerful-static-website-generator-with-flask/.
 """
 
 import argparse
+from datetime import date
 
 from flask import Flask, Blueprint, render_template, abort
 from flask_flatpages import FlatPages
@@ -47,6 +48,8 @@ def tag(tag):
 def page(path):
     page = pages.get_or_404(path)
     if not page.meta.get('published', True):
+        abort(404)
+    if 'date' in page.meta and page.meta['date'] > date.today():
         abort(404)
     template = 'layout/%s.html' % page.meta.get('layout', 'page')
     return render_template(template, page=page)

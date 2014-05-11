@@ -8,7 +8,7 @@ yet-powerful-static-website-generator-with-flask/.
 """
 
 import argparse
-from datetime import date
+from datetime import date, datetime
 
 from flask import Flask, Blueprint, render_template
 from flask import current_app
@@ -72,29 +72,41 @@ class FlakyPages(FlatPages):
 pages = FlakyPages()
 
 
+def _site(pages):
+    return {
+        'time': datetime.now(),
+        'pages': pages,
+        'categories': set().union(*[set([p.meta['category']]) for p in pages
+                                    if 'category' in p.meta]),
+        'tags': set().union(*[set(p.meta.get('tags', [])) for p in pages]),
+        'config': current_app.config,
+    }
+
+
 @flaky.route('/')
 def index():
-    return render_template('index.html', pages=pages)
+    return render_template('index.html', site=_site(pages))
 
 
 @flaky.route('/tag/<string:tag>/')
 def tag(tag):
     tagged = [p for p in pages if tag in p.meta.get('tags', [])]
-    return render_template('tag.html', pages=tagged, tag=tag)
+    return render_template('tag.html', pages=tagged, tag=tag,
+                           site=_site(pages))
 
 
 @flaky.route('/category/<string:category>/')
 def category(category):
     categorized = [p for p in pages if category == p.meta.get('category')]
     return render_template('category.html', pages=categorized,
-                           category=category)
+                           category=category, site=_site(pages))
 
 
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
     template = 'layout/%s.html' % page.meta.get('layout', 'page')
-    return render_template(template, page=page)
+    return render_template(template, page=page, site=_site(pages))
 
 
 def create_app(settings=None):

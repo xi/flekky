@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>List of stuff</h2>
-    {% with pages=pages  %}
+    {% with pages=site.pages  %}
         {% include "_list.html" %}
     {% endwith %}
 {% endblock content %}

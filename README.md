@@ -18,6 +18,8 @@ and have fun experimenting with things you might give Flaky a try.
 Quickstart
 ==========
 
+    $ git clone https://github.com/xi/flaky.git
+    $ cd flaky
     $ virtualenv init env
     $ . env/bin/activate
     $ pip -Ur requirements.txt

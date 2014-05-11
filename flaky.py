@@ -1,3 +1,4 @@
+#!/use/bin/env python
 # -*- coding: utf-8 -*-
 """Static website generator inspired by jekyll based on flask.
 

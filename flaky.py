@@ -8,7 +8,7 @@ yet-powerful-static-website-generator-with-flask/.
 
 import argparse
 
-from flask import Flask, Blueprint, render_template
+from flask import Flask, Blueprint, render_template, abort
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
@@ -46,7 +46,8 @@ def tag(tag):
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
-    return render_template('page.html', page=page)
+    template = 'layout/%s.html' % page.meta.get('layout', 'page')
+    return render_template(template, page=page)
 
 
 def create_app(settings=None):

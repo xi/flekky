@@ -7,6 +7,7 @@ yet-powerful-static-website-generator-with-flask/.
 
 """
 
+import os
 import argparse
 from datetime import date, datetime
 
@@ -147,10 +148,13 @@ def page(path):
     return render_template(template, page=page, site=_site(pages))
 
 
-def create_app(settings=None):
-    app = Flask(__name__)
+def create_app(source, settings=None):
+    app = Flask(__name__,
+                template_folder=os.path.join(source, 'templates'),
+                static_folder=os.path.join(source, 'static'))
 
     app.config.from_object(__name__)
+    app.config['FLATPAGES_ROOT'] = os.path.join(source, 'pages')
     app.config.from_object(settings)
 
     app.register_blueprint(flaky)
@@ -159,15 +163,15 @@ def create_app(settings=None):
     return app
 
 
-def create_freezer(settings=None):
-    return Freezer(create_app(settings))
+def create_freezer(*args, **kwargs):
+    return Freezer(create_app(*args, **kwargs))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', '-s', default='_source', metavar='SOURCE',
-                        dest='FLATPAGES_ROOT', help=_('directory where flaky '
-                        'will read files (default: _source)'))
+    parser.add_argument('--source', '-s', default='_source',
+                        help=_('directory where flaky will read files '
+                        '(default: _source)'))
     parser.add_argument('--future', action='store_true', dest='FLAKY_FUTURE',
                         help=_('include pages with dates in the future '
                         '(default: false)'))
@@ -192,10 +196,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.cmd == 'build':
-        freezer = create_freezer(args)
+        freezer = create_freezer(args.source, args)
         freezer.freeze()
     elif args.cmd == 'serve':
-        app = create_app(args)
+        app = create_app(args.source, args)
         app.run(port=args.port)
     else:
         raise ValueError('invalid command: %s' % args.cmd)

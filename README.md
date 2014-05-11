@@ -21,7 +21,7 @@ Quickstart
     $ virtalenv init env
     $ . env/bin/activate
     $ pip -Ur requirements.txt
-    $ python flaky.py --source _source build --destination _deploy
+    $ python flaky.py --source _example build --destination _deploy
 
 Basic Usage
 ===========

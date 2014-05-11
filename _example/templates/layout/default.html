@@ -4,7 +4,11 @@
     <h2>{{ page.title }}</h2>
     {{ page.html|safe }}
 {% if page.category %}
-    <p>in category {{ page.category|link_category }}</p>
+    <span class="category">in category {{ page.category|link_category }}</span>
 {% endif %}
-    <p>tags: {% for tag in page.tags %}{{ tag|link_tag }} {% endfor %}</p>
+    <ul class="tags">
+{% for tag in page.tags %}
+        <li>{{ tag|link_tag }}</li>
+{% endfor %}
+    </ul>
 {% endblock content %}

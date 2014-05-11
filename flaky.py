@@ -85,8 +85,7 @@ def tag(tag):
 
 @flaky.route('/category/<string:category>/')
 def category(category):
-    categories = lambda p: p.meta.get('category', p.meta.get('categories', []))
-    categorized = [p for p in pages if category in categories(p)]
+    categorized = [p for p in pages if category == p.meta.get('category')]
     return render_template('category.html', pages=categorized,
                            category=category)
 

@@ -49,3 +49,5 @@ if __name__ == '__main__':
         freezer.freeze()
     else:
         app.run(port=8000)
+
+# vim: set ts=4 sw=4 sts=4 et:

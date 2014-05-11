@@ -32,6 +32,8 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
 pages = FlatPages()
 flaky = Blueprint('flaky', __name__)
 
+_ = lambda s: s
+
 
 @flaky.route('/')
 def index():
@@ -79,17 +81,22 @@ def create_freezer(settings=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source', metavar='SOURCE',
-                        dest='FLATPAGES_ROOT')
-    subparsers = parser.add_subparsers()
+                        dest='FLATPAGES_ROOT', help=_('directory where flaky '
+                        'will read files (default: _source)'))
+    subparsers = parser.add_subparsers(title=_('commands'))
 
-    parser_serve = subparsers.add_parser('serve')
+    parser_build = subparsers.add_parser('build', help=_('generate static '
+                                         'sites'))
+    parser_build.add_argument('--destination', '-d', default='_deploy',
+                              metavar='DEST', dest='FREEZER_DESTINATION',
+                              help=_('directory where flaky will write files '
+                              '(default: _deploy)'))
+    parser_build.set_defaults(cmd='build')
+
+    parser_serve = subparsers.add_parser('serve', help=_('run a test server '
+                                         'for development'))
     parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
-
-    parser_build = subparsers.add_parser('build')
-    parser_build.add_argument('--destination', default='_deploy',
-                              metavar='DEST', dest='FREEZER_DESTINATION')
-    parser_build.set_defaults(cmd='build')
 
     args = parser.parse_args()
 

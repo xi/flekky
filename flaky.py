@@ -46,6 +46,8 @@ def tag(tag):
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
+    if not page.meta.get('published', True):
+        abort(404)
     template = 'layout/%s.html' % page.meta.get('layout', 'page')
     return render_template(template, page=page)
 

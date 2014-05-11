@@ -3,4 +3,6 @@
 {% block content %}
     <h2>{{ page.title }}</h2>
     {{ page.html|safe }}
+    <p>in category {{ page.category|link_category }}</p>
+    <p>tags: {% for tag in page.tags %}{{ tag|link_tag }} {% endfor %}</p>
 {% endblock content %}

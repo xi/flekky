@@ -1,7 +1,7 @@
 <ul>
 {% for page in pages %}
     <li>
-        <a href="{{ url_for(".page", path=page.path) }}">{{ page.title }}</a>
+        {{ page|link_page }}
     {% if page.meta.tags|length %}
         | Tagged:
         {% for page_tag in page.meta.tags %}

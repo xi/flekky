@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>My site</title>
 
-    <link rel="stylesheet" src="/static/style.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
     {% block head %}
     {% endblock head %}
 </head>
@@ -18,7 +18,7 @@
 {% endblock content %}
    </main>
    <footer>
-       <p>Generated using <a>flaky</a> on {{ site.time|datetime }}</p>
+       <p>Generated using <a href="">Flaky</a> on {{ site.time|datetime }}</p>
    </footer>
 </body>
 </html>

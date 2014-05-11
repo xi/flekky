@@ -1,13 +1,7 @@
-<ul>
+<ul class="page-list">
 {% for page in pages %}
     <li>
         {{ page|link_page }}
-    {% if page.meta.tags|length %}
-        | Tagged:
-        {% for page_tag in page.meta.tags %}
-            <a href="{{ url_for(".tag", tag=page_tag) }}">{{ page_tag }}</a>
-        {% endfor %}
-    {% endif %}
     </li>
 {% else %}
     <li>No page.</li>

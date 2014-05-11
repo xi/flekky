@@ -1,0 +1,45 @@
+body {
+	min-width: 20em;
+	max-width: 60em;
+	margin: 0 auto;
+	padding: 0 0.5em;
+}
+
+a:link, a:visited {
+	color: cornflowerblue;
+}
+a:hover, a:focus {
+	color: darkblue;
+}
+
+header {
+	border-bottom: 3px solid darkblue;
+}
+header h1 {
+	margin: inherit;
+	font-size: large;
+}
+header h1 a {
+	text-decoration: none;
+}
+
+footer {
+	font-size: small;
+	text-align: center;
+	border-top: 3px solid darkblue;
+}
+
+.tags,
+.page-list {
+	list-style: none;
+	margin: 0 0 1.5em;
+	padding: 0;
+}
+
+.category,
+.tags {
+	font-size: small
+}
+.tags li {
+	display: inline;
+}

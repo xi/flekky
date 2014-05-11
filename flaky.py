@@ -73,6 +73,7 @@ class FlakyPages(FlatPages):
 pages = FlakyPages()
 
 
+# filters
 def filter_datetime(dt, format="%c"):
     return Markup('<time datetime="%s">%s</time>' % (dt, dt.strftime(format)))
 
@@ -101,6 +102,16 @@ def filter_link_tag(tag):
 def filter_link_category(category):
     href = url_for('.category', category=category)
     return Markup('<a href="%s">%s</a>' % (href, escape(category)))
+
+
+def register_filters(app):
+    app.jinja_env.filters['datetime'] = filter_datetime
+    app.jinja_env.filters['date'] = filter_date
+    app.jinja_env.filters['time'] = filter_time
+
+    app.jinja_env.filters['link_page'] = filter_link_page
+    app.jinja_env.filters['link_tag'] = filter_link_tag
+    app.jinja_env.filters['link_category'] = filter_link_category
 
 
 def _site(pages):
@@ -146,14 +157,7 @@ def create_app(settings=None):
     app.config.from_object(__name__)
     app.config.from_object(settings)
 
-    app.jinja_env.filters['datetime'] = filter_datetime
-    app.jinja_env.filters['date'] = filter_date
-    app.jinja_env.filters['time'] = filter_time
-
-    app.jinja_env.filters['link_page'] = filter_link_page
-    app.jinja_env.filters['link_tag'] = filter_link_tag
-    app.jinja_env.filters['link_category'] = filter_link_category
-
+    register_filters(app)
     app.register_blueprint(flaky)
     pages.init_app(app)
 

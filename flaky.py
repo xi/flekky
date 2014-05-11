@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Static website generator inspiredby jekyll based on flask.
+"""Static website generator inspired by jekyll based on flask.
 
 Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-yet-powerful-static-website-generator-with-flask/.
 

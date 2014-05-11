@@ -3,11 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>My site</title>
+
+    <link rel="stylesheet" src="/static/style.css" />
+    {% block head %}
+    {% endblock head %}
 </head>
 <body>
-    <h1><a href="{{ url_for("index") }}">My site</a></h1>
+    <header>
+        <h1><a href="{{ url_for(".index") }}">My site</a></h1>
+    </header>
+    <main>
 {% block content %}
-    <p>Default content to be displayed</p>
+    <!-- Default content to be displayed -->
 {% endblock content %}
+   </main>
+   <footer>
+       <p>Generated using <a>flaky</a></p>
+   </footer>
 </body>
 </html>

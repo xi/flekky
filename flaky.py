@@ -8,7 +8,7 @@ yet-powerful-static-website-generator-with-flask/.
 
 import argparse
 
-from flask import Flask, render_template
+from flask import Flask, Blueprint, render_template
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
@@ -28,27 +28,38 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
     'toc',
 ]
 
-app = Flask(__name__)
-app.config.from_object(__name__)
-pages = FlatPages(app)
-freezer = Freezer(app)
+pages = FlatPages()
+flaky = Blueprint('flaky', __name__)
 
 
-@app.route('/')
+@flaky.route('/')
 def index():
     return render_template('index.html', pages=pages)
 
 
-@app.route('/tag/<string:tag>/')
+@flaky.route('/tag/<string:tag>/')
 def tag(tag):
     tagged = [p for p in pages if tag in p.meta.get('tags', [])]
     return render_template('tag.html', pages=tagged, tag=tag)
 
 
-@app.route('/<path:path>/')
+@flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
     return render_template('page.html', page=page)
+
+
+def create_app(settings=None):
+    app = Flask(__name__)
+    app.config.from_object(__name__)
+    app.config.from_object(settings)
+    app.register_blueprint(flaky)
+    pages.init_app(app)
+    return app
+
+
+def create_freezer(settings=None):
+    return Freezer(create_app(settings))
 
 
 if __name__ == '__main__':
@@ -58,8 +69,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.cmd == 'build':
+        freezer = create_freezer()
         freezer.freeze()
     else:
+        app = create_app()
         app.run(port=8000)
 
 # vim: set ts=4 sw=4 sts=4 et:

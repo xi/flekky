@@ -12,6 +12,7 @@ from datetime import date, datetime
 
 from flask import Flask, Blueprint, render_template
 from flask import current_app
+from flask import Markup
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
@@ -72,6 +73,20 @@ class FlakyPages(FlatPages):
 pages = FlakyPages()
 
 
+def filter_datetime(dt, format="%c"):
+    return Markup('<time datetime="%s">%s</time>' % (dt, dt.strftime(format)))
+
+
+def filter_date(dt, format="%x"):
+    return Markup('<time datetime="%s">%s</time>' % (dt.date(),
+                                                     dt.strftime(format)))
+
+
+def filter_time(dt, format="%X"):
+    return Markup('<time datetime="%s">%s</time>' % (dt.time(),
+                                                     dt.strftime(format)))
+
+
 def _site(pages):
     return {
         'time': datetime.now(),
@@ -111,10 +126,17 @@ def page(path):
 
 def create_app(settings=None):
     app = Flask(__name__)
+
     app.config.from_object(__name__)
     app.config.from_object(settings)
+
+    app.jinja_env.filters['datetime'] = filter_datetime
+    app.jinja_env.filters['date'] = filter_date
+    app.jinja_env.filters['time'] = filter_time
+
     app.register_blueprint(flaky)
     pages.init_app(app)
+
     return app
 
 

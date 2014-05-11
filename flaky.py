@@ -78,8 +78,14 @@ def create_freezer(settings=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('cmd', choices={'serve', 'build'}, nargs='?',
-                        default='serve')
+    subparsers = parser.add_subparsers()
+
+    parser_serve = subparsers.add_parser('serve')
+    parser_serve.set_defaults(cmd='serve')
+
+    parser_build = subparsers.add_parser('build')
+    parser_build.set_defaults(cmd='build')
+
     args = parser.parse_args()
 
     if args.cmd == 'build':

@@ -78,6 +78,8 @@ def create_freezer(settings=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--source', '-s', default='_source', metavar='SOURCE',
+                        dest='FLATPAGES_ROOT')
     subparsers = parser.add_subparsers()
 
     parser_serve = subparsers.add_parser('serve')
@@ -85,15 +87,17 @@ if __name__ == '__main__':
     parser_serve.set_defaults(cmd='serve')
 
     parser_build = subparsers.add_parser('build')
+    parser_build.add_argument('--destination', default='_deploy',
+                              metavar='DEST', dest='FREEZER_DESTINATION')
     parser_build.set_defaults(cmd='build')
 
     args = parser.parse_args()
 
     if args.cmd == 'build':
-        freezer = create_freezer()
+        freezer = create_freezer(args)
         freezer.freeze()
     elif args.cmd == 'serve':
-        app = create_app()
+        app = create_app(args)
         app.run(port=args.port)
     else:
         raise ValueError('invalid command: %s' % args.cmd)

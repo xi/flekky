@@ -45,12 +45,11 @@ class FlakyPages(FlatPages):
         if not page:
             return False
 
-        include_unpublished = current_app.config.get('FLAKY_UNPUBLISHED',
-                                                     False)
+        include_unpublished = self.app.config.get('FLAKY_UNPUBLISHED', False)
         if not include_unpublished and not page.meta.get('published', True):
             return False
 
-        include_future = current_app.config.get('FLAKY_FUTURE', False)
+        include_future = self.app.config.get('FLAKY_FUTURE', False)
         is_future = 'date' in page.meta and page.meta['date'] > date.today()
         if not include_future and is_future:
             return False

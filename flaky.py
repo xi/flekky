@@ -11,8 +11,8 @@ import argparse
 from datetime import date, datetime
 
 from flask import Flask, Blueprint, render_template
-from flask import current_app
-from flask import Markup
+from flask import current_app, url_for
+from flask import Markup, escape
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
@@ -87,6 +87,22 @@ def filter_time(dt, format="%X"):
                                                      dt.strftime(format)))
 
 
+def filter_link_page(page):
+    href = url_for('.page', path=page.path)
+    text = page.meta['title']
+    return Markup('<a href="%s">%s</a>' % (href, escape(text)))
+
+
+def filter_link_tag(tag):
+    href = url_for('.tag', tag=tag)
+    return Markup('<a href="%s">%s</a>' % (href, escape(tag)))
+
+
+def filter_link_category(category):
+    href = url_for('.category', category=category)
+    return Markup('<a href="%s">%s</a>' % (href, escape(category)))
+
+
 def _site(pages):
     return {
         'time': datetime.now(),
@@ -133,6 +149,10 @@ def create_app(settings=None):
     app.jinja_env.filters['datetime'] = filter_datetime
     app.jinja_env.filters['date'] = filter_date
     app.jinja_env.filters['time'] = filter_time
+
+    app.jinja_env.filters['link_page'] = filter_link_page
+    app.jinja_env.filters['link_tag'] = filter_link_tag
+    app.jinja_env.filters['link_category'] = filter_link_category
 
     app.register_blueprint(flaky)
     pages.init_app(app)

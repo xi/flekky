@@ -56,7 +56,7 @@ A basic Flaky site usually looks like this:
         ├── category.html
         ├── index.html
         ├── layout
-        │   ├── page.html
+        │   ├── default.html
         │   └── post.html
         └── tag.html
 
@@ -105,7 +105,7 @@ have a special meaning:
 -   `title`: Title for this page.
 
 -   `layout`: Select a template from the `layout` folder for rendering (default:
-    `page`).
+    `default`).
 
 -   `published`: Unpublished pages will not be included in the website. This can
     be disabled using the `--unpublished` command-line option.

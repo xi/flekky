@@ -144,7 +144,7 @@ def category(category):
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
-    template = 'layout/%s.html' % page.meta.get('layout', 'page')
+    template = 'layout/%s.html' % page.meta.get('layout', 'default')
     return render_template(template, page=page, site=_site(pages))
 
 

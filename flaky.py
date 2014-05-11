@@ -8,7 +8,7 @@ Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-yet-p
 import sys
 
 from flask import Flask, render_template
-from flaskext.flatpages import FlatPages
+from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
 DEBUG = True

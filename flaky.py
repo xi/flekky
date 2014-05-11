@@ -10,6 +10,7 @@ import argparse
 from datetime import date
 
 from flask import Flask, Blueprint, render_template, abort
+from flask import current_app
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
@@ -57,10 +58,16 @@ def category(category):
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
-    if not page.meta.get('published', True):
+
+    include_unpublished = current_app.config.get('FLAKY_UNPUBLISHED', False)
+    if not include_unpublished and not page.meta.get('published', True):
         abort(404)
-    if 'date' in page.meta and page.meta['date'] > date.today():
+
+    include_future = current_app.config.get('FLAKY_FUTURE', False)
+    is_future = 'date' in page.meta and page.meta['date'] > date.today()
+    if not include_future and is_future:
         abort(404)
+
     template = 'layout/%s.html' % page.meta.get('layout', 'page')
     return render_template(template, page=page)
 
@@ -83,6 +90,12 @@ if __name__ == '__main__':
     parser.add_argument('--source', '-s', default='_source', metavar='SOURCE',
                         dest='FLATPAGES_ROOT', help=_('directory where flaky '
                         'will read files (default: _source)'))
+    parser.add_argument('--future', action='store_true', dest='FLAKY_FUTURE',
+                        help=_('include pages with dates in the future '
+                        '(default: false)'))
+    parser.add_argument('--unpublished', action='store_true',
+                        dest='FLAKY_UNPUBCLISHED', help=_('include '
+                        'unpublished pages (default: false)'))
     subparsers = parser.add_subparsers(title=_('commands'))
 
     parser_build = subparsers.add_parser('build', help=_('generate static '

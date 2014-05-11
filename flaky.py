@@ -170,7 +170,7 @@ def create_freezer(*args, **kwargs):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source',
-                        help=_('directory where flaky will read files '
+                        help=_('directory where Flaky will read files '
                         '(default: _source)'))
     parser.add_argument('--future', action='store_true', dest='FLAKY_FUTURE',
                         help=_('include pages with dates in the future '
@@ -184,7 +184,7 @@ if __name__ == '__main__':
                                          'sites'))
     parser_build.add_argument('--destination', '-d', default='_deploy',
                               metavar='DEST', dest='FREEZER_DESTINATION',
-                              help=_('directory where flaky will write files '
+                              help=_('directory where Flaky will write files '
                               '(default: _deploy)'))
     parser_build.set_defaults(cmd='build')
 

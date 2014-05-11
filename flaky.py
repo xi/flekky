@@ -16,6 +16,18 @@ DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
 
+# http://pythonhosted.org//Markdown/extensions/#officially-supported-extensions
+FLATPAGES_MARKDOWN_EXTENSIONS = [
+    'codehilite',
+    'headerid',
+    'fenced_code',
+    'footnotes',
+    'tables',
+    'abbr',
+    'wikilinks',
+    'toc',
+]
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 pages = FlatPages(app)

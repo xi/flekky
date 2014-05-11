@@ -81,6 +81,7 @@ if __name__ == '__main__':
     subparsers = parser.add_subparsers()
 
     parser_serve = subparsers.add_parser('serve')
+    parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
 
     parser_build = subparsers.add_parser('build')
@@ -91,8 +92,10 @@ if __name__ == '__main__':
     if args.cmd == 'build':
         freezer = create_freezer()
         freezer.freeze()
-    else:
+    elif args.cmd == 'serve':
         app = create_app()
-        app.run(port=8000)
+        app.run(port=args.port)
+    else:
+        raise ValueError('invalid command: %s' % args.cmd)
 
 # vim: set ts=4 sw=4 sts=4 et:

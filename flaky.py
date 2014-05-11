@@ -44,6 +44,14 @@ def tag(tag):
     return render_template('tag.html', pages=tagged, tag=tag)
 
 
+@flaky.route('/category/<string:category>/')
+def category(category):
+    categories = lambda p: p.meta.get('category', p.meta.get('categories', []))
+    categorized = [p for p in pages if category in categories(p)]
+    return render_template('category.html', pages=categorized,
+                           category=category)
+
+
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)

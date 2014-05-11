@@ -18,7 +18,7 @@ and have fun experimenting with things you might give Flaky a try.
 Quickstart
 ==========
 
-    $ virtalenv init env
+    $ virtualenv init env
     $ . env/bin/activate
     $ pip -Ur requirements.txt
     $ python flaky.py --source _example build --destination _deploy

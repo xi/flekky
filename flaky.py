@@ -176,7 +176,7 @@ if __name__ == '__main__':
                         help=_('include pages with dates in the future '
                         '(default: false)'))
     parser.add_argument('--unpublished', action='store_true',
-                        dest='FLAKY_UNPUBCLISHED', help=_('include '
+                        dest='FLAKY_UNPUBLISHED', help=_('include '
                         'unpublished pages (default: false)'))
     subparsers = parser.add_subparsers(title=_('commands'))
 

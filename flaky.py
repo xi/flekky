@@ -9,7 +9,7 @@ yet-powerful-static-website-generator-with-flask/.
 import argparse
 from datetime import date
 
-from flask import Flask, Blueprint, render_template, abort
+from flask import Flask, Blueprint, render_template
 from flask import current_app
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
@@ -30,10 +30,45 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
     'toc',
 ]
 
-pages = FlatPages()
 flaky = Blueprint('flaky', __name__)
 
 _ = lambda s: s
+
+
+class FlakyPages(FlatPages):
+    """Flat Pages with some extra features for Jekyll compatibility."""
+
+    def _is_included(self, page):
+        if not page:
+            return False
+
+        include_unpublished = current_app.config.get('FLAKY_UNPUBLISHED',
+                                                     False)
+        if not include_unpublished and not page.meta.get('published', True):
+            return False
+
+        include_future = current_app.config.get('FLAKY_FUTURE', False)
+        is_future = 'date' in page.meta and page.meta['date'] > date.today()
+        if not include_future and is_future:
+            return False
+
+        return True
+
+    def get(self, path, default=None):
+        page = super(FlakyPages, self).get(path)
+
+        if self._is_included(page):
+            return page
+        else:
+            return default
+
+    def __iter__(self):
+        for page in super(FlakyPages, self).__iter__():
+            if self._is_included(page):
+                yield page
+
+
+pages = FlakyPages()
 
 
 @flaky.route('/')
@@ -58,16 +93,6 @@ def category(category):
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
-
-    include_unpublished = current_app.config.get('FLAKY_UNPUBLISHED', False)
-    if not include_unpublished and not page.meta.get('published', True):
-        abort(404)
-
-    include_future = current_app.config.get('FLAKY_FUTURE', False)
-    is_future = 'date' in page.meta and page.meta['date'] > date.today()
-    if not include_future and is_future:
-        abort(404)
-
     template = 'layout/%s.html' % page.meta.get('layout', 'page')
     return render_template(template, page=page)
 

@@ -32,10 +32,6 @@ You can generate static HTML by using the `build` command:
 
     $ python flaky.py build
 
-Please note that Flaky uses crawling to find your pages. It starts with
-`index.html` and follows links from there. If a page is never linked it will
-not be included in the build.
-
 Flaky also comes with a built-in development server that will allow you to
 preview what the generated site will look like in your browser locally.
 

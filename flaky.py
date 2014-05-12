@@ -69,6 +69,21 @@ class FlakyPages(FlatPages):
             if self._is_included(page):
                 yield page
 
+    def by_tag(self, tag):
+        return (p for p in self if tag in p.meta.get('tags', []))
+
+    def by_category(self, category):
+        return (p for p in self if category == p.meta.get('category'))
+
+    def tags(self):
+        tags = set()
+        for page in self:
+            tags.union(set(page.meta.get('tags', [])))
+        return tags
+
+    def categories(self):
+        return set([p.meta['category'] for p in self if 'category' in p.meta])
+
 
 pages = FlakyPages()
 
@@ -114,9 +129,8 @@ def _site(pages):
     return {
         'time': datetime.now(),
         'pages': pages,
-        'categories': set().union(*[set([p.meta['category']]) for p in pages
-                                    if 'category' in p.meta]),
-        'tags': set().union(*[set(p.meta.get('tags', [])) for p in pages]),
+        'categories': pages.categories(),
+        'tags': pages.tags(),
         'config': current_app.config,
     }
 
@@ -128,15 +142,13 @@ def index():
 
 @flaky.route('/tag/<string:tag>/')
 def tag(tag):
-    tagged = [p for p in pages if tag in p.meta.get('tags', [])]
-    return render_template('tag.html', pages=tagged, tag=tag,
+    return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
                            site=_site(pages))
 
 
 @flaky.route('/category/<string:category>/')
 def category(category):
-    categorized = [p for p in pages if category == p.meta.get('category')]
-    return render_template('category.html', pages=categorized,
+    return render_template('category.html', pages=pages.by_category(category),
                            category=category, site=_site(pages))
 
 

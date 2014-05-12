@@ -124,7 +124,7 @@ have a special meaning:
 site
 ----
 
-The site object stores all date that applies to the whole project:
+The site object stores all data that applies to the whole project:
 
 -   `time`: Current time. This can be used to display the time of the last build.
 

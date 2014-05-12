@@ -175,7 +175,10 @@ def create_app(source, settings=None):
 
 
 def create_freezer(*args, **kwargs):
-    return Freezer(create_app(*args, **kwargs))
+    freezer = Freezer(create_app(*args, **kwargs))
+    urls = lambda: (('.page', {'path': page.path}) for page in pages)
+    freezer.register_generator(urls)
+    return freezer
 
 
 def parse_args():

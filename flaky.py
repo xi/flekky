@@ -178,7 +178,7 @@ def create_freezer(*args, **kwargs):
     return Freezer(create_app(*args, **kwargs))
 
 
-if __name__ == '__main__':
+def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source',
                         help=_('directory where Flaky will read files '
@@ -204,7 +204,11 @@ if __name__ == '__main__':
     parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+if __name__ == '__main__':
+    args = parse_args()
 
     if args.cmd == 'build':
         freezer = create_freezer(args.source, args)

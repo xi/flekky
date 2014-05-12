@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>My site</title>
+    <title>{{ site.title }}</title>
 
     <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
     {% block head %}
@@ -10,7 +10,9 @@
 </head>
 <body>
     <header>
-        <h1><a href="{{ url_for('flaky.page', path='/') }}">My site</a></h1>
+        <h1><a href="{{ url_for('flaky.page', path='/') }}">
+            {{ site.title }}
+        </a></h1>
     </header>
     <main>
 {% block content %}

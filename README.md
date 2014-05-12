@@ -61,7 +61,9 @@ A basic Flaky site usually looks like this:
 An overview of what each of them does:
 
 -   `pages`: Your dynamic content, so to speak. These are Markdown files, but
-    they also contain some [YAML] data at the top.
+    they also contain some [YAML] data at the top. `index.md` is special
+    because all its metadata is added to `site` , so you can use it to set
+    the title of the complete website.
 
 -   `static`: Static files like CSS, JavaScript and images.
 
@@ -119,7 +121,10 @@ have a special meaning:
 site
 ----
 
-The site object stores all data that applies to the whole project:
+The site object stores all data that applies to the whole project. This also
+includes any metadata from `index.md`.
+
+-   `title`: Title of the website.
 
 -   `time`: Current time. This can be used to display the time of the last build.
 

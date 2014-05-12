@@ -126,13 +126,20 @@ def filter_link_category(category):
 
 
 def _site(pages):
-    return {
+    site = {
+        'title': 'Flaky',
         'time': datetime.now(),
         'pages': pages,
         'categories': pages.categories(),
         'tags': pages.tags(),
         'config': current_app.config,
     }
+
+    index = pages.get('index')
+    if hasattr(index, 'meta'):
+        site.update(index.meta)
+
+    return site
 
 
 @flaky.route('/tag/<string:tag>/')

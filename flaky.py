@@ -66,7 +66,7 @@ class FlakyPages(FlatPages):
 
     def __iter__(self):
         for page in super(FlakyPages, self).__iter__():
-            if self._is_included(page):
+            if self._is_included(page) and page.path != 'index':
                 yield page
 
     def by_tag(self, tag):
@@ -135,11 +135,6 @@ def _site(pages):
     }
 
 
-@flaky.route('/')
-def index():
-    return render_template('index.html', site=_site(pages))
-
-
 @flaky.route('/tag/<string:tag>/')
 def tag(tag):
     return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
@@ -152,6 +147,7 @@ def category(category):
                            category=category, site=_site(pages))
 
 
+@flaky.route('/', defaults={'path': 'index'})
 @flaky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)

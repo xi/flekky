@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <h1><a href="{{ url_for(".index") }}">My site</a></h1>
+        <h1><a href="{{ url_for('flaky.page', path='/') }}">My site</a></h1>
     </header>
     <main>
 {% block content %}

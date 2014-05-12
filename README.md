@@ -44,6 +44,7 @@ A basic Flaky site usually looks like this:
 
     _source
     ├── pages
+    │   ├── index.md
     │   └── test.md
     ├── static
     │   ├── css
@@ -52,7 +53,6 @@ A basic Flaky site usually looks like this:
     └── templates
         ├── base.html
         ├── category.html
-        ├── index.html
         ├── layout
         │   ├── default.html
         │   └── post.html
@@ -66,9 +66,8 @@ An overview of what each of them does:
 -   `static`: Static files like CSS, JavaScript and images.
 
 -   `templates`: You will probably want to include a `base.html` that all other
-    templates can extend. `index.html` is used to render the front page;
-    `category.html` and `tag.html` are used to render category and tag pages
-    respectively.  Layouts are used to render pages.
+    templates can extend.  `category.html` and `tag.html` are used to render
+    category and tag pages respectively.  Layouts are used to render pages.
 
 Command-line options
 ====================

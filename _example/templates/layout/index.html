@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>Welcome to the example page.</p>
+    {{ page.html|safe }}
+
     <p>Here is a list of stuff on this website:</p>
     {% with pages=site.pages  %}
         {% include "_list.html" %}

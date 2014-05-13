@@ -33,23 +33,23 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
     'toc',
 ]
 
-flaky = Blueprint('flaky', __name__)
+flekky = Blueprint('flekky', __name__)
 
 _ = lambda s: s
 
 
-class FlakyPages(FlatPages):
+class FlekkyPages(FlatPages):
     """Flat Pages with some extra features for Jekyll compatibility."""
 
     def _is_included(self, page):
         if not page:
             return False
 
-        include_unpublished = self.app.config.get('FLAKY_UNPUBLISHED', False)
+        include_unpublished = self.app.config.get('FLEKKY_UNPUBLISHED', False)
         if not include_unpublished and not page.meta.get('published', True):
             return False
 
-        include_future = self.app.config.get('FLAKY_FUTURE', False)
+        include_future = self.app.config.get('FLEKKY_FUTURE', False)
         is_future = 'date' in page.meta and page.meta['date'] > date.today()
         if not include_future and is_future:
             return False
@@ -57,7 +57,7 @@ class FlakyPages(FlatPages):
         return True
 
     def get(self, path, default=None):
-        page = super(FlakyPages, self).get(path)
+        page = super(FlekkyPages, self).get(path)
 
         if self._is_included(page):
             return page
@@ -65,7 +65,7 @@ class FlakyPages(FlatPages):
             return default
 
     def __iter__(self):
-        for page in super(FlakyPages, self).__iter__():
+        for page in super(FlekkyPages, self).__iter__():
             if self._is_included(page) and page.path != 'index':
                 yield page
 
@@ -85,41 +85,41 @@ class FlakyPages(FlatPages):
         return set([p.meta['category'] for p in self if 'category' in p.meta])
 
 
-pages = FlakyPages()
+pages = FlekkyPages()
 
 
 # filters
-@flaky.app_template_filter('datetime')
+@flekky.app_template_filter('datetime')
 def filter_datetime(dt, format="%c"):
     return Markup('<time datetime="%s">%s</time>' % (dt, dt.strftime(format)))
 
 
-@flaky.app_template_filter('date')
+@flekky.app_template_filter('date')
 def filter_date(dt, format="%x"):
     return Markup('<time datetime="%s">%s</time>' % (dt.date(),
                                                      dt.strftime(format)))
 
 
-@flaky.app_template_filter('time')
+@flekky.app_template_filter('time')
 def filter_time(dt, format="%X"):
     return Markup('<time datetime="%s">%s</time>' % (dt.time(),
                                                      dt.strftime(format)))
 
 
-@flaky.app_template_filter('link_page')
+@flekky.app_template_filter('link_page')
 def filter_link_page(page):
     href = url_for('.page', path=page.path)
     text = page.meta['title']
     return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
 
-@flaky.app_template_filter('link_tag')
+@flekky.app_template_filter('link_tag')
 def filter_link_tag(tag):
     href = url_for('.tag', tag=tag)
     return Markup('<a href="%s">%s</a>' % (href, escape(tag)))
 
 
-@flaky.app_template_filter('link_category')
+@flekky.app_template_filter('link_category')
 def filter_link_category(category):
     href = url_for('.category', category=category)
     return Markup('<a href="%s">%s</a>' % (href, escape(category)))
@@ -127,7 +127,7 @@ def filter_link_category(category):
 
 def _site(pages):
     site = {
-        'title': 'Flaky',
+        'title': 'Flekky',
         'time': datetime.now(),
         'pages': pages,
         'categories': pages.categories(),
@@ -142,20 +142,20 @@ def _site(pages):
     return site
 
 
-@flaky.route('/tag/<string:tag>/')
+@flekky.route('/tag/<string:tag>/')
 def tag(tag):
     return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
                            site=_site(pages))
 
 
-@flaky.route('/category/<string:category>/')
+@flekky.route('/category/<string:category>/')
 def category(category):
     return render_template('category.html', pages=pages.by_category(category),
                            category=category, site=_site(pages))
 
 
-@flaky.route('/', defaults={'path': 'index'})
-@flaky.route('/<path:path>/')
+@flekky.route('/', defaults={'path': 'index'})
+@flekky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
     template = 'layout/%s.html' % page.meta.get('layout', 'default')
@@ -171,7 +171,7 @@ def create_app(source, settings=None):
     app.config['FLATPAGES_ROOT'] = os.path.join(source, 'pages')
     app.config.from_object(settings)
 
-    app.register_blueprint(flaky)
+    app.register_blueprint(flekky)
     pages.init_app(app)
 
     return app
@@ -187,13 +187,13 @@ def create_freezer(*args, **kwargs):
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source',
-                        help=_('directory where Flaky will read files '
+                        help=_('directory where Flekky will read files '
                         '(default: _source)'))
-    parser.add_argument('--future', action='store_true', dest='FLAKY_FUTURE',
+    parser.add_argument('--future', action='store_true', dest='FLEKKY_FUTURE',
                         help=_('include pages with dates in the future '
                         '(default: false)'))
     parser.add_argument('--unpublished', action='store_true',
-                        dest='FLAKY_UNPUBLISHED', help=_('include '
+                        dest='FLEKKY_UNPUBLISHED', help=_('include '
                         'unpublished pages (default: false)'))
     subparsers = parser.add_subparsers(title=_('commands'))
 
@@ -201,7 +201,7 @@ def parse_args():
                                          'sites'))
     parser_build.add_argument('--destination', '-d', default='_deploy',
                               metavar='DEST', dest='FREEZER_DESTINATION',
-                              help=_('directory where Flaky will write files '
+                              help=_('directory where Flekky will write files '
                               '(default: _deploy)'))
     parser_build.set_defaults(cmd='build')
 

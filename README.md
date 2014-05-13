@@ -1,7 +1,7 @@
 About
 =====
 
-Flaky is a static website generator inspired by [Jekyll] but written in
+Flekky is a static website generator inspired by [Jekyll] but written in
 python and based on [Flask].  It is basically a wrapper around the excellent
 [Frozen-Flask] and [Flask-FlatPages] as described in [this
 article][article] by Nicolas Perriault.
@@ -13,34 +13,34 @@ for templating. [Markdown] is used for creating content.
 
 There are many static website generators out there of which Jekyll is arguably
 the most popular. You are probably better of with that. But if you like Flask
-and have fun experimenting with things you might give Flaky a try.
+and have fun experimenting with things you might give Flekky a try.
 
 Quickstart
 ==========
 
-    $ git clone https://github.com/xi/flaky.git
-    $ cd flaky
+    $ git clone https://github.com/xi/flekky.git
+    $ cd flekky
     $ virtualenv init env
     $ . env/bin/activate
     $ pip -Ur requirements.txt
-    $ python flaky.py --source _example build --destination _deploy
+    $ python flekky.py --source _example build --destination _deploy
 
 Basic Usage
 ===========
 
 You can generate static HTML by using the `build` command:
 
-    $ python flaky.py build
+    $ python flekky.py build
 
-Flaky also comes with a built-in development server that will allow you to
+Flekky also comes with a built-in development server that will allow you to
 preview what the generated site will look like in your browser locally.
 
-    $ python flaky.py serve
+    $ python flekky.py serve
 
 File structure
 ==============
 
-A basic Flaky site usually looks like this:
+A basic Flekky site usually looks like this:
 
     _source
     ├── pages
@@ -74,15 +74,15 @@ An overview of what each of them does:
 Command-line options
 ====================
 
-Flaky has several command-line options:
+Flekky has several command-line options:
 
 -   general
-    -   `--source`: directory where Flaky will read files (default: `_source`)
+    -   `--source`: directory where Flekky will read files (default: `_source`)
     -   `--future`: include pages with dates in the future (default: `false`)
     -   `--unpublished`: include unpublished pages (default: `false`)
 
 -   build
-    -   `--destination`: directory where Flaky will write files (default: `_deploy`)
+    -   `--destination`: directory where Flekky will write files (default: `_deploy`)
 
 -   serve
     -   `--port`: port to run at (default: `8000`)
@@ -90,8 +90,8 @@ Flaky has several command-line options:
 Variables
 =========
 
-Flaky makes a variety of data available to the templating system. The following
-is a reference of the available data.
+Flekky makes a variety of data available to the templating system. The
+following is a reference of the available data.
 
 page
 ----
@@ -139,7 +139,7 @@ includes any metadata from `index.md`.
 Differences from Jekyll
 =======================
 
-Flaky aims at being very similar to Jekyll. However it is far from being a
+Flekky aims at being very similar to Jekyll. However it is far from being a
 drop-in replacement. Some of the missing features might be added in the future.
 For now, these are some of the most important differences:
 

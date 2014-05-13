@@ -75,6 +75,14 @@ class FlekkyPages(FlatPages):
     def by_category(self, category):
         return (p for p in self if category == p.meta.get('category'))
 
+    def by_date(self, year, month=None, day=None):
+        for page in (p for p in self if 'date' in p.meta):
+            date = page.meta['date']
+            if (date.year == year
+                    and month is None or date.month == month
+                    and day is None or date.day == day):
+                yield page
+
     def tags(self):
         tags = set()
         for page in self:
@@ -140,6 +148,14 @@ def _site(pages):
         site.update(index.meta)
 
     return site
+
+
+@flekky.route('/<int:year>/')
+@flekky.route('/<int:year>/<int:month>/')
+@flekky.route('/<int:year>/<int:month>/<int:day>/')
+def date_(year, month=None, day=None):
+    return render_template('date.html', pages=pages.by_date(year, month, day),
+                           site=_site(pages))
 
 
 @flekky.route('/tag/<string:tag>/')

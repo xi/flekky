@@ -11,7 +11,7 @@ import os
 import argparse
 from datetime import date, datetime
 
-from flask import Flask, Blueprint, render_template
+from flask import Flask, Blueprint, render_template, abort
 from flask import current_app, url_for
 from flask import Markup, escape
 from flask_flatpages import FlatPages
@@ -144,12 +144,16 @@ def _site(pages):
 
 @flekky.route('/tag/<string:tag>/')
 def tag(tag):
+    if not tag in pages.tags():
+        abort(404)
     return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
                            site=_site(pages))
 
 
 @flekky.route('/category/<string:category>/')
 def category(category):
+    if not category in pages.categories():
+        abort(404)
     return render_template('category.html', pages=pages.by_category(category),
                            category=category, site=_site(pages))
 

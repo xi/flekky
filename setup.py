@@ -5,7 +5,7 @@ import os
 
 root = os.path.dirname(os.path.abspath(__file__))
 
-with open(os.path.join(root, 'README.md')) as fh:
+with open(os.path.join(root, 'README.rst')) as fh:
     readme = fh.read()
 
 

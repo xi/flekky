@@ -1,11 +1,9 @@
 #!/use/bin/env python
 # -*- coding: utf-8 -*-
-"""Static website generator inspired by jekyll based on flask.
+"""Static website generator inspired by jekyll based on flask."""
 
-Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-\
-yet-powerful-static-website-generator-with-flask/.
-
-"""
+# Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-\
+# yet-powerful-static-website-generator-with-flask/.
 
 import os
 import argparse
@@ -21,7 +19,7 @@ DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_EXTENSION = '.md'
 
-# http://pythonhosted.org//Markdown/extensions/#officially-supported-extensions
+# http://pythonhosted.org/Markdown/extensions/#officially-supported-extensions
 FLATPAGES_MARKDOWN_EXTENSIONS = [
     'codehilite',
     'headerid',

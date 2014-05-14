@@ -2,3 +2,6 @@ env
 _source
 _deploy
 .coverage
+flekky.egg-info
+dist
+build

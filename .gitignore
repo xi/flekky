@@ -1,4 +1,5 @@
 env
+.env
 _source
 _deploy
 .coverage

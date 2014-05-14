@@ -68,18 +68,22 @@ class FlekkyPages(FlatPages):
                 yield page
 
     def by_tag(self, tag):
+        """Get all pages tagged with `tag`."""
         return (p for p in self if tag in p.meta.get('tags', []))
 
     def by_category(self, category):
+        """Get all pages filed under `category`."""
         return (p for p in self if category == p.meta.get('category'))
 
     def tags(self):
+        """Get a set of all tags."""
         tags = set()
         for page in self:
             tags.update(set(page.meta.get('tags', [])))
         return tags
 
     def categories(self):
+        """Get a set of all categories."""
         return set([p.meta['category'] for p in self if 'category' in p.meta])
 
 
@@ -89,23 +93,27 @@ pages = FlekkyPages()
 # filters
 @flekky.app_template_filter('datetime')
 def filter_datetime(dt, format="%c"):
+    """Convert datetime object to HTML5 markup representing full datetime."""
     return Markup('<time datetime="%s">%s</time>' % (dt, dt.strftime(format)))
 
 
 @flekky.app_template_filter('date')
 def filter_date(dt, format="%x"):
+    """Convert datetime object to HTML5 markup representing date only."""
     return Markup('<time datetime="%s">%s</time>' % (dt.date(),
                                                      dt.strftime(format)))
 
 
 @flekky.app_template_filter('time')
 def filter_time(dt, format="%X"):
+    """Convert datetime object to HTML5 markup representing time only."""
     return Markup('<time datetime="%s">%s</time>' % (dt.time(),
                                                      dt.strftime(format)))
 
 
 @flekky.app_template_filter('link_page')
 def filter_link_page(page):
+    """Convert page object to an HTML link to that page."""
     href = url_for('flekky.page', path=page.path)
     text = page.meta['title']
     return Markup('<a href="%s">%s</a>' % (href, escape(text)))
@@ -113,17 +121,23 @@ def filter_link_page(page):
 
 @flekky.app_template_filter('link_tag')
 def filter_link_tag(tag):
+    """Convert tag name to an HTML link to that tag."""
     href = url_for('flekky.tag', tag=tag)
     return Markup('<a href="%s">%s</a>' % (href, escape(tag)))
 
 
 @flekky.app_template_filter('link_category')
 def filter_link_category(category):
+    """Convert category name to an HTML link to that category."""
     href = url_for('flekky.category', category=category)
     return Markup('<a href="%s">%s</a>' % (href, escape(category)))
 
 
 def _site(pages):
+    """Construct site wide variables.
+
+    ... as opposed to page specific variables.
+    """
     site = {
         'title': 'Flekky',
         'time': datetime.now(),
@@ -165,6 +179,12 @@ def page(path):
 
 
 def create_app(source, settings=None):
+    """App factory.
+
+    Args:
+        source (str): source directory
+        settings (dict): will be loaded after all other configuration is done
+    """
     app = Flask(__name__,
                 template_folder=os.path.join(source, 'templates'),
                 static_folder=os.path.join(source, 'static'))
@@ -180,6 +200,10 @@ def create_app(source, settings=None):
 
 
 def create_freezer(*args, **kwargs):
+    """Freezer factory.
+
+    Any arguments will be forwarded to the underlying app factory.
+    """
     freezer = Freezer(create_app(*args, **kwargs))
     urls = lambda: (('.page', {'path': page.path}) for page in pages)
     freezer.register_generator(urls)
@@ -187,6 +211,11 @@ def create_freezer(*args, **kwargs):
 
 
 def parse_args(argv=None):
+    """Parse command line arguments.
+
+    Args:
+        argv (list): List of command line parameters.
+    """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source',
                         help=_('directory where Flekky will read files '

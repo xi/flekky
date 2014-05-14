@@ -108,20 +108,20 @@ def filter_time(dt, format="%X"):
 
 @flekky.app_template_filter('link_page')
 def filter_link_page(page):
-    href = url_for('.page', path=page.path)
+    href = url_for('flekky.page', path=page.path)
     text = page.meta['title']
     return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
 
 @flekky.app_template_filter('link_tag')
 def filter_link_tag(tag):
-    href = url_for('.tag', tag=tag)
+    href = url_for('flekky.tag', tag=tag)
     return Markup('<a href="%s">%s</a>' % (href, escape(tag)))
 
 
 @flekky.app_template_filter('link_category')
 def filter_link_category(category):
-    href = url_for('.category', category=category)
+    href = url_for('flekky.category', category=category)
     return Markup('<a href="%s">%s</a>' % (href, escape(category)))
 
 

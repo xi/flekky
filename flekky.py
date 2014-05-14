@@ -78,7 +78,7 @@ class FlekkyPages(FlatPages):
     def tags(self):
         tags = set()
         for page in self:
-            tags.union(set(page.meta.get('tags', [])))
+            tags.update(set(page.meta.get('tags', [])))
         return tags
 
     def categories(self):

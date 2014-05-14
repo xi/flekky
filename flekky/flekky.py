@@ -217,7 +217,7 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     args = parse_args()
 
     if args.cmd == 'build':

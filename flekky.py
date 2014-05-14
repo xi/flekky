@@ -184,7 +184,7 @@ def create_freezer(*args, **kwargs):
     return freezer
 
 
-def parse_args():
+def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', '-s', default='_source',
                         help=_('directory where Flekky will read files '
@@ -210,7 +210,7 @@ def parse_args():
     parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
 
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 if __name__ == '__main__':

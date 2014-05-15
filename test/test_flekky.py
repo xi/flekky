@@ -1,7 +1,6 @@
 import sys
 import os
 import unittest
-from StringIO import StringIO
 
 from datetime import datetime
 from flask import Markup
@@ -11,6 +10,14 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, root)
 
 from flekky import flekky
+
+if sys.version_info[0] < 3:
+    from StringIO import StringIO
+    _str = unicode
+else:
+    from io import StringIO
+    _str = str
+
 
 ENVIRON = {
     'SERVER_NAME': 'localhost',
@@ -30,30 +37,30 @@ class TestCase(unittest.TestCase):
 
 class TestFlekkyPages(TestCase):
     def test_get(self):
-        self.assertIsNotNone(self.pages.get('test'))
-        self.assertIsNone(self.pages.get('draft'))
-        self.assertIsNone(self.pages.get('future'))
-        self.assertIsNone(self.pages.get('nonexistent'))
+        self.assertTrue(self.pages.get('test') is not None)
+        self.assertTrue(self.pages.get('draft') is None)
+        self.assertTrue(self.pages.get('future') is None)
+        self.assertTrue(self.pages.get('nonexistent') is None)
 
     def test_iter(self):
         paths = set([p.path for p in self.pages])
-        self.assertSetEqual(paths, set(['lorem ipsum', 'test']))
+        self.assertEqual(paths, set(['lorem ipsum', 'test']))
 
     def test_by_tag(self):
         by_tag = self.pages.by_tag('test')
         paths = set([p.path for p in by_tag])
-        self.assertSetEqual(paths, set(['test']))
+        self.assertEqual(paths, set(['test']))
 
     def test_by_category(self):
         by_category = self.pages.by_category('greeting')
         paths = set([p.path for p in by_category])
-        self.assertSetEqual(paths, set(['test']))
+        self.assertEqual(paths, set(['test']))
 
     def test_tags(self):
-        self.assertSetEqual(self.pages.tags(), set(['test', 'example']))
+        self.assertEqual(self.pages.tags(), set(['test', 'example']))
 
     def test_categories(self):
-        self.assertSetEqual(self.pages.categories(), set(['greeting']))
+        self.assertEqual(self.pages.categories(), set(['greeting']))
 
 
 class TestFilters(TestCase):
@@ -98,17 +105,17 @@ class TestFilters(TestCase):
 class TestRoutes(TestCase):
     def test_page(self):
         with self.app.request_context(ENVIRON):
-            self.assertIsInstance(flekky.page('test'), unicode)
+            self.assertTrue(isinstance(flekky.page('test'), _str))
             self.assertRaises(NotFound, flekky.page, 'nonexistent')
 
     def test_tag(self):
         with self.app.request_context(ENVIRON):
-            self.assertIsInstance(flekky.tag('test'), unicode)
+            self.assertTrue(isinstance(flekky.tag('test'), _str))
             self.assertRaises(NotFound, flekky.tag, 'nonexistent')
 
     def test_category(self):
         with self.app.request_context(ENVIRON):
-            self.assertIsInstance(flekky.category('greeting'), unicode)
+            self.assertTrue(isinstance(flekky.category('greeting'), _str))
             self.assertRaises(NotFound, flekky.category, 'nonexistent')
 
 
@@ -116,9 +123,9 @@ class TestFreeze(unittest.TestCase):
     def test_freeze(self):
         source = os.path.join(root, '_example')
         self.freezer = flekky.create_freezer(source)
-        expected = {u'/static/css/style.css', u'/test/', u'/lorem ipsum/'}
+        expected = set(['/static/css/style.css', '/test/', '/lorem ipsum/'])
         actual = set(self.freezer.all_urls())
-        self.assertSetEqual(actual, expected)
+        self.assertEqual(actual, expected)
 
 
 class TestArgs(unittest.TestCase):

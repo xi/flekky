@@ -3,6 +3,7 @@ env
 _source
 _deploy
 .coverage
+.tox
 flekky.egg-info
 dist
 build

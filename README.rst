@@ -26,8 +26,8 @@ Quickstart
     $ cd flekky
     $ virtualenv init env
     $ . env/bin/activate
-    $ pip -Ur requirements.txt
-    $ python flekky.py --source _example build --destination _deploy
+    $ python setup.py install
+    $ python flekky/flekky.py --source $(pwd)/_example build
 
 Basic Usage
 ===========

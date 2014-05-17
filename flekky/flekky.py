@@ -156,7 +156,7 @@ def _site(pages):
 
 @flekky.route('/tag/<string:tag>/')
 def tag(tag):
-    if not tag in pages.tags():
+    if tag not in pages.tags():
         abort(404)
     return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
                            site=_site(pages))
@@ -164,7 +164,7 @@ def tag(tag):
 
 @flekky.route('/category/<string:category>/')
 def category(category):
-    if not category in pages.categories():
+    if category not in pages.categories():
         abort(404)
     return render_template('category.html', pages=pages.by_category(category),
                            category=category, site=_site(pages))

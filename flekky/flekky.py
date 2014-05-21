@@ -231,7 +231,6 @@ def parse_args(argv=None):
     parser_build = subparsers.add_parser('build', help=_('generate static '
                                          'sites'))
     parser_build.add_argument('--destination', '-d', default='_deploy',
-                              metavar='DEST', dest='FREEZER_DESTINATION',
                               help=_('directory where Flekky will write files '
                               '(default: _deploy)'))
     parser_build.set_defaults(cmd='build')
@@ -244,16 +243,22 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
-if __name__ == '__main__':  # pragma: no cover
+def main():  # pragma: no cover
     args = parse_args()
+    source = os.path.abspath(args.source)
 
     if args.cmd == 'build':
-        freezer = create_freezer(args.source, args)
+        args.FREEZER_DESTINATION = os.path.abspath(args.destination)
+        freezer = create_freezer(source, args)
         freezer.freeze()
     elif args.cmd == 'serve':
         app = create_app(args.source, args)
         app.run(port=args.port)
     else:
         raise ValueError('invalid command: %s' % args.cmd)
+
+
+if __name__ == '__main__':  # pragma: no cover
+    main()
 
 # vim: set ts=4 sw=4 sts=4 et:

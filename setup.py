@@ -27,6 +27,7 @@ setup(
     platforms='any',
     packages=find_packages(),
     license='GPLv3+',
+    entry_points={'console_scripts': 'flekky=flekky.flekky:main'},
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',

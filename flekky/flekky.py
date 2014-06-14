@@ -253,7 +253,7 @@ def main():  # pragma: no cover
         freezer = create_freezer(source, args)
         freezer.freeze()
     elif args.cmd == 'serve':
-        app = create_app(args.source, args)
+        app = create_app(source, args)
         app.run(port=args.port)
     else:
         raise ValueError('invalid command: %s' % args.cmd)

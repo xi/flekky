@@ -8,7 +8,7 @@ article`_ by Nicolas Perriault.
 
 So what does it do? It allows you to write templates, assets and
 contents for your website and bake all that into static HTML. You can
-than deply that HTML on any webserver and do not have to worry about
+than deploy that HTML on any webserver and do not have to worry about
 anything. `Jinja2`_ is used for templating. `Markdown`_ is used for
 creating content.
 

@@ -2,6 +2,7 @@ env
 .env
 _source
 _source_build
+_example_build
 .coverage
 .tox
 flekky.egg-info

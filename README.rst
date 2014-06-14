@@ -22,25 +22,21 @@ Quickstart
 
 ::
 
-    $ git clone https://github.com/xi/flekky.git
-    $ cd flekky
-    $ virtualenv init env
-    $ . env/bin/activate
-    $ python setup.py install
-    $ python flekky/flekky.py --source $(pwd)/_example build
+    $ pip install flekky
+    $ flekky --source _example build
 
 Basic Usage
 ===========
 
 You can generate static HTML by using the ``build`` command::
 
-    $ python flekky.py build
+    $ flekky build
 
 Flekky also comes with a built-in development server that will allow you
 to preview what the generated site will look like in your browser
 locally::
 
-    $ python flekky.py serve
+    $ flekky serve
 
 File structure
 ==============

@@ -231,9 +231,9 @@ def parse_args(argv=None):
 
     parser_build = subparsers.add_parser('build', help=_('generate static '
                                          'sites'))
-    parser_build.add_argument('--destination', '-d', default='_deploy',
+    parser_build.add_argument('--destination', '-d', default=None,
                               help=_('directory where Flekky will write files '
-                              '(default: _deploy)'))
+                              '(default: <source>_build)'))
     parser_build.set_defaults(cmd='build')
 
     parser_serve = subparsers.add_parser('serve', help=_('run a test server '
@@ -249,6 +249,8 @@ def main():  # pragma: no cover
     source = os.path.abspath(args.source)
 
     if args.cmd == 'build':
+        if args.destination is None:
+            args.destination = '%s_build' % args.source
         args.FREEZER_DESTINATION = os.path.abspath(args.destination)
         freezer = create_freezer(source, args)
         freezer.freeze()

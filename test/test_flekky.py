@@ -168,7 +168,7 @@ class TestArgs(unittest.TestCase):
         self.assertEqual(args.source, '_source')
         self.assertFalse(args.FLEKKY_FUTURE)
         self.assertFalse(args.FLEKKY_UNPUBLISHED)
-        self.assertEqual(args.destination, '_deploy')
+        self.assertEqual(args.destination, None)
 
     def test_invalid_cmd(self):
         self.assertRaises(SystemExit, flekky.parse_args, ['invalid'])

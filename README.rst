@@ -93,7 +93,7 @@ Flekky has several command-line options:
 -  build
 
    -  ``--destination``: directory where Flekky will write files
-      (default: ``_deploy``)
+      (default: ``<source>_build``)
 
 -  serve
 

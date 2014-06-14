@@ -11,7 +11,7 @@ with open(os.path.join(root, 'README.rst')) as fh:
 
 setup(
     name='flekky',
-    version='0.0.1',
+    version='0.0.2',
     description="Static website generator inspired by jekyll based on flask.",
     long_description=readme,
     author='Tobias Bengfort',

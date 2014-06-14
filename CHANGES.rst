@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.0.2 (unreleased)
+0.0.2 (2014-06-14)
 ------------------
 
 - Default destination depends on source.

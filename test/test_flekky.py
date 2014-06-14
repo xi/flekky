@@ -89,6 +89,9 @@ class TestFilters(TestCase):
             actual = flekky.filter_link_page(page)
         self.assertEqual(expected, actual)
 
+        with self.app.request_context(ENVIRON):
+            self.assertEqual(None, flekky.filter_link_page(None))
+
     def test_link_tag(self):
         expected = Markup('<a href="/tag/test/">test</a>')
         with self.app.request_context(ENVIRON):

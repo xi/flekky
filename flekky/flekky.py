@@ -114,9 +114,10 @@ def filter_time(dt, format="%X"):
 @flekky.app_template_filter('link_page')
 def filter_link_page(page):
     """Convert page object to an HTML link to that page."""
-    href = url_for('flekky.page', path=page.path)
-    text = page.meta['title']
-    return Markup('<a href="%s">%s</a>' % (href, escape(text)))
+    if page is not None:
+        href = url_for('flekky.page', path=page.path)
+        text = page.meta['title']
+        return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
 
 @flekky.app_template_filter('link_tag')

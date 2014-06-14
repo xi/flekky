@@ -73,6 +73,9 @@ An overview of what each of them does:
    are used to render category and tag pages respectively. Layouts are
    used to render pages.
 
+-  Any additional files from the root folder that do not begin with
+   an underscore (``_``) or dot (``.``) will be copied verbatim.
+
 Command-line options
 ====================
 
@@ -166,7 +169,6 @@ differences:
    -  no drafts
    -  no data files
    -  date is not encoded in file name
-   -  additional files are not copied automatically
 
 -  only pages that are linked to are included in the build
 

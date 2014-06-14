@@ -251,9 +251,19 @@ def main():  # pragma: no cover
     if args.cmd == 'build':
         if args.destination is None:
             args.destination = '%s_build' % args.source
-        args.FREEZER_DESTINATION = os.path.abspath(args.destination)
+        destination = os.path.abspath(args.destination)
+        args.FREEZER_DESTINATION = destination
         freezer = create_freezer(source, args)
         freezer.freeze()
+
+        # copy all additional files
+        for filename in os.listdir(source):
+            if (filename not in ['pages', 'static', 'templates']
+                    and not filename.startswith('_')
+                    and not filename.startswith('.')):
+                srcpath = os.path.join(source, filename)
+                dstpath = os.path.join(destination, filename)
+                os.link(srcpath, dstpath)
     elif args.cmd == 'serve':
         app = create_app(source, args)
         app.run(port=args.port)

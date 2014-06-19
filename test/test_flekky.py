@@ -1,10 +1,14 @@
 import sys
 import os
-import unittest
 
 from datetime import datetime
 from flask import Markup
 from werkzeug.exceptions import NotFound
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, root)
@@ -44,23 +48,23 @@ class TestFlekkyPages(TestCase):
 
     def test_iter(self):
         paths = set([p.path for p in self.pages])
-        self.assertEqual(paths, set(['lorem ipsum', 'test']))
+        self.assertSetEqual(paths, set(['lorem ipsum', 'test']))
 
     def test_by_tag(self):
         by_tag = self.pages.by_tag('test')
         paths = set([p.path for p in by_tag])
-        self.assertEqual(paths, set(['test']))
+        self.assertSetEqual(paths, set(['test']))
 
     def test_by_category(self):
         by_category = self.pages.by_category('greeting')
         paths = set([p.path for p in by_category])
-        self.assertEqual(paths, set(['test']))
+        self.assertSetEqual(paths, set(['test']))
 
     def test_tags(self):
-        self.assertEqual(self.pages.tags(), set(['test', 'example']))
+        self.assertSetEqual(self.pages.tags(), set(['test', 'example']))
 
     def test_categories(self):
-        self.assertEqual(self.pages.categories(), set(['greeting']))
+        self.assertSetEqual(self.pages.categories(), set(['greeting']))
 
 
 class TestFilters(TestCase):
@@ -90,7 +94,7 @@ class TestFilters(TestCase):
         self.assertEqual(expected, actual)
 
         with self.app.request_context(ENVIRON):
-            self.assertEqual(None, flekky.filter_link_page(None))
+            self.assertIsNone(flekky.filter_link_page(None))
 
     def test_link_tag(self):
         expected = Markup('<a href="/tag/test/">test</a>')
@@ -128,7 +132,7 @@ class TestFreeze(unittest.TestCase):
         self.freezer = flekky.create_freezer(source)
         expected = set(['/static/css/style.css', '/test/', '/lorem ipsum/'])
         actual = set(self.freezer.all_urls())
-        self.assertEqual(actual, expected)
+        self.assertSetEqual(actual, expected)
 
 
 class TestArgs(unittest.TestCase):
@@ -168,7 +172,7 @@ class TestArgs(unittest.TestCase):
         self.assertEqual(args.source, '_source')
         self.assertFalse(args.FLEKKY_FUTURE)
         self.assertFalse(args.FLEKKY_UNPUBLISHED)
-        self.assertEqual(args.destination, None)
+        self.assertIsNone(args.destination)
 
     def test_invalid_cmd(self):
         self.assertRaises(SystemExit, flekky.parse_args, ['invalid'])

@@ -4,7 +4,7 @@
     {{ page.html|safe }}
 
     <p>Here is a list of stuff on this website:</p>
-    {% with pages=site.pages  %}
+    {% with pages=site.pages.by_key('layout', 'default', default='default')  %}
         {% include "_list.html" %}
     {% endwith %}
 {% endblock content %}

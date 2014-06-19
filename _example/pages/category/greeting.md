@@ -1,0 +1,2 @@
+title: greeting
+layout: category

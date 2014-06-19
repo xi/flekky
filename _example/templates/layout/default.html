@@ -3,12 +3,12 @@
 {% block content %}
     <h2>{{ page.title }}</h2>
     {{ page.html|safe }}
-{% if page.category %}
-    <span class="category">in category {{ page.category|link_category }}</span>
+{% if 'category' in page.meta %}
+    <span class="category">in category {{ site.pages.get('category/' + page.meta.get('category'))|link_page }}</span>
 {% endif %}
     <ul class="tags">
-{% for tag in page.tags %}
-        <li>{{ tag|link_tag }}</li>
+{% for tag in page.meta.get('tags') %}
+        <li>{{ site.pages.get('tag/' + tag)|link_page }}</li>
 {% endfor %}
     </ul>
 {% endblock content %}

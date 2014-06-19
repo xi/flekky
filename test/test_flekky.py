@@ -47,24 +47,28 @@ class TestFlekkyPages(TestCase):
         self.assertTrue(self.pages.get('nonexistent') is None)
 
     def test_iter(self):
-        paths = set([p.path for p in self.pages])
-        self.assertSetEqual(paths, set(['lorem ipsum', 'test']))
+        actual = set([p.path for p in self.pages])
+        expected = set(['lorem ipsum', 'test', 'tag/test', 'tag/example',
+                        'category/greeting'])
+        self.assertSetEqual(actual, expected)
 
     def test_by_tag(self):
-        by_tag = self.pages.by_tag('test')
+        by_tag = self.pages.by_key('tags', 'test', is_list=True)
         paths = set([p.path for p in by_tag])
         self.assertSetEqual(paths, set(['test']))
 
     def test_by_category(self):
-        by_category = self.pages.by_category('greeting')
+        by_category = self.pages.by_key('category', 'greeting')
         paths = set([p.path for p in by_category])
         self.assertSetEqual(paths, set(['test']))
 
     def test_tags(self):
-        self.assertSetEqual(self.pages.tags(), set(['test', 'example']))
+        actual = self.pages.values('tags', is_list=True)
+        expected = set(['test', 'example'])
+        self.assertSetEqual(actual, expected)
 
     def test_categories(self):
-        self.assertSetEqual(self.pages.categories(), set(['greeting']))
+        self.assertSetEqual(self.pages.values('category'), set(['greeting']))
 
 
 class TestFilters(TestCase):
@@ -96,18 +100,6 @@ class TestFilters(TestCase):
         with self.app.request_context(ENVIRON):
             self.assertIsNone(flekky.filter_link_page(None))
 
-    def test_link_tag(self):
-        expected = Markup('<a href="/tag/test/">test</a>')
-        with self.app.request_context(ENVIRON):
-            actual = flekky.filter_link_tag('test')
-        self.assertEqual(expected, actual)
-
-    def test_link_category(self):
-        expected = Markup('<a href="/category/greeting/">greeting</a>')
-        with self.app.request_context(ENVIRON):
-            actual = flekky.filter_link_category('greeting')
-        self.assertEqual(expected, actual)
-
 
 class TestRoutes(TestCase):
     def test_page(self):
@@ -115,22 +107,13 @@ class TestRoutes(TestCase):
             self.assertTrue(isinstance(flekky.page('test'), _str))
             self.assertRaises(NotFound, flekky.page, 'nonexistent')
 
-    def test_tag(self):
-        with self.app.request_context(ENVIRON):
-            self.assertTrue(isinstance(flekky.tag('test'), _str))
-            self.assertRaises(NotFound, flekky.tag, 'nonexistent')
-
-    def test_category(self):
-        with self.app.request_context(ENVIRON):
-            self.assertTrue(isinstance(flekky.category('greeting'), _str))
-            self.assertRaises(NotFound, flekky.category, 'nonexistent')
-
 
 class TestFreeze(unittest.TestCase):
     def test_freeze(self):
         source = os.path.join(root, '_example')
         self.freezer = flekky.create_freezer(source)
-        expected = set(['/static/css/style.css', '/test/', '/lorem ipsum/'])
+        expected = set(['/static/css/style.css', '/test/', '/lorem ipsum/',
+                        '/tag/test/', '/tag/example/', '/category/greeting/'])
         actual = set(self.freezer.all_urls())
         self.assertSetEqual(actual, expected)
 

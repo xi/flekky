@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ page.title }}</h2>
+    {{ page.html|safe }}
+    <ul class="pages">
+{% for page in site.pages.by_key('category', page.title) %}
+        <li>{{ page|link_page }}</li>
+{% endfor %}
+    </ul>
+{% endblock content %}

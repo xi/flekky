@@ -67,24 +67,20 @@ class FlekkyPages(FlatPages):
             if self._is_included(page) and page.path != 'index':
                 yield page
 
-    def by_tag(self, tag):
-        """Get all pages tagged with `tag`."""
-        return (p for p in self if tag in p.meta.get('tags', []))
+    def by_key(self, key, value, default=None, is_list=False):
+        if is_list:
+            return (p for p in self if value in p.meta.get(key, []))
+        else:
+            return (p for p in self if value == p.meta.get(key, default))
 
-    def by_category(self, category):
-        """Get all pages filed under `category`."""
-        return (p for p in self if category == p.meta.get('category'))
-
-    def tags(self):
-        """Get a set of all tags."""
-        tags = set()
-        for page in self:
-            tags.update(set(page.meta.get('tags', [])))
-        return tags
-
-    def categories(self):
-        """Get a set of all categories."""
-        return set([p.meta['category'] for p in self if 'category' in p.meta])
+    def values(self, key, is_list=False):
+        if is_list:
+            values = set()
+            for page in self:
+                values.update(set(page.meta.get(key, [])))
+            return values
+        else:
+            return set([p.meta[key] for p in self if key in p.meta])
 
 
 pages = FlekkyPages()
@@ -120,20 +116,6 @@ def filter_link_page(page):
         return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
 
-@flekky.app_template_filter('link_tag')
-def filter_link_tag(tag):
-    """Convert tag name to an HTML link to that tag."""
-    href = url_for('flekky.tag', tag=tag)
-    return Markup('<a href="%s">%s</a>' % (href, escape(tag)))
-
-
-@flekky.app_template_filter('link_category')
-def filter_link_category(category):
-    """Convert category name to an HTML link to that category."""
-    href = url_for('flekky.category', category=category)
-    return Markup('<a href="%s">%s</a>' % (href, escape(category)))
-
-
 def _site(pages):
     """Construct site wide variables.
 
@@ -143,8 +125,6 @@ def _site(pages):
         'title': 'Flekky',
         'time': datetime.now(),
         'pages': pages,
-        'categories': pages.categories(),
-        'tags': pages.tags(),
         'config': current_app.config,
     }
 
@@ -153,22 +133,6 @@ def _site(pages):
         site.update(index.meta)
 
     return site
-
-
-@flekky.route('/tag/<string:tag>/')
-def tag(tag):
-    if tag not in pages.tags():
-        abort(404)
-    return render_template('tag.html', pages=pages.by_tag(tag), tag=tag,
-                           site=_site(pages))
-
-
-@flekky.route('/category/<string:category>/')
-def category(category):
-    if category not in pages.categories():
-        abort(404)
-    return render_template('category.html', pages=pages.by_category(category),
-                           category=category, site=_site(pages))
 
 
 @flekky.route('/', defaults={'path': 'index'})

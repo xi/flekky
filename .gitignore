@@ -1,8 +1,7 @@
 env
 .env
 _source
-_source_build
-_example_build
+*_build
 .coverage
 .tox
 flekky.egg-info

@@ -139,7 +139,7 @@ def _site(pages):
 @flekky.route('/<path:path>/')
 def page(path):
     page = pages.get_or_404(path)
-    template = 'layout/%s.html' % page.meta.get('layout', 'default')
+    template = '%s.html' % page.meta.get('layout', 'default')
     return render_template(template, page=page, site=_site(pages))
 
 

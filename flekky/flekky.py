@@ -214,8 +214,9 @@ def rlink(src, dest):
             os.mkdir(dest)
         for filename in os.listdir(src):
             rlink(os.path.join(src, filename), os.path.join(dest, filename))
-    elif not os.path.exists(dest):
-        if os.path.getmtime(dest) < os.path.getmtime(src):
+    elif os.path.lexists(dest):
+        if (not os.path.exists(dest) or
+                os.path.getmtime(dest) < os.path.getmtime(src)):
             os.unlink(dest)
             os.link(src, dest)
     else:

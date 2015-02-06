@@ -53,11 +53,12 @@ A basic Flekky site usually looks like this::
     │   └── js
     └── templates
         ├── base.html
-        ├── category.html
         ├── layout
+        │   ├── category.html
         │   ├── default.html
-        │   └── post.html
-        └── tag.html
+        │   ├── post.html
+        │   └── tag.html
+        └── partial.html
 
 An overview of what each of them does:
 
@@ -68,10 +69,9 @@ An overview of what each of them does:
 
 -  ``static``: Static files like CSS, JavaScript and images.
 
--  ``templates``: You will probably want to include a ``base.html`` that
-   all other templates can extend. ``category.html`` and ``tag.html``
-   are used to render category and tag pages respectively. Layouts are
-   used to render pages.
+-  ``templates``: Each page can select a layout that is used to render that
+   page. But you will probably also want to include a ``base.html`` that
+   these layouts can extend and maybe some partials that can be included.
 
 -  Any additional files from the root folder that do not begin with
    an underscore (``_``) or dot (``.``) will be copied verbatim.

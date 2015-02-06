@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.0 (2015-02-06)
+------------------
+
+- tags and category support has been removed.  Instead, the generic functions
+  ``by_key`` and ``values`` have been introduced.
+- Additional files in root folder may now also be directories.
+
 
 0.0.2 (2014-06-14)
 ------------------

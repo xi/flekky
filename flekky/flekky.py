@@ -9,7 +9,7 @@ import os
 import argparse
 from datetime import date, datetime
 
-from flask import Flask, Blueprint, render_template, abort
+from flask import Flask, Blueprint, render_template
 from flask import current_app, url_for
 from flask import Markup, escape
 from flask_flatpages import FlatPages

@@ -210,9 +210,14 @@ def parse_args(argv=None):
 
 def rlink(src, dest):
     if os.path.isdir(src):
-        os.mkdir(dest)
+        if not os.path.exists(dest):
+            os.mkdir(dest)
         for filename in os.listdir(src):
             rlink(os.path.join(src, filename), os.path.join(dest, filename))
+    elif not os.path.exists(dest):
+        if os.path.getmtime(dest) < os.path.getmtime(src):
+            os.unlink(dest)
+            os.link(src, dest)
     else:
         os.link(src, dest)
 

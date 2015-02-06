@@ -122,12 +122,6 @@ templates. But some fields also have a special meaning:
    website. This can be disabled using the ``--future`` command-line
    option.
 
--  ``category``: Each page can be filed under a single category. It will
-   be included on the category page.
-
--  ``tags``: Tags can be used to categorize pages. They are very similar
-   to categories with the difference that a page can have multiple tags.
-
 site
 ----
 
@@ -141,11 +135,32 @@ also includes any metadata from ``index.md``.
 
 -  ``pages``: A list of all pages.
 
--  ``categories``: A list of all used categories.
-
--  ``tags``: A list of all used tags.
-
 -  ``config``: The complete configuration.
+
+Tags and Categories
+===================
+
+Tags and categories are commonly used on websites.  The ``site.pages`` object
+available in templates containes the functions ``by_key`` and ``values`` that
+can be used to implement them.
+
+``by_key`` will return only those pages that match the given key/value pair.
+So ``by_key('category', 'greeting')`` will return a list of all pages in
+category 'greeting'.  ``by_key('tags', 'example', is_list=True)`` will return
+all pages that have the 'example' tag.  Note that ``tags`` should be a list,
+so the ``is_list`` argument is needed here.
+
+``values`` will return a list of all values that have been used with a given
+key.  So ``values('category')`` will return a list with all categories and
+``values('tags', is_list=True)`` will return a list with all tags.
+
+These functions can be used to create a template for tag or category pages
+respectively.  Note that tag and category pages will not be created
+automatically.
+
+But these functions can not only be used for tags and categories.  You can
+basically define any structure you want.  Or you can filter by existing field,
+e.g. by layout.
 
 Differences from Jekyll
 =======================

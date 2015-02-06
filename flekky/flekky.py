@@ -208,6 +208,15 @@ def parse_args(argv=None):
     return parser.parse_args(argv)
 
 
+def rlink(src, dest):
+    if os.path.isdir(src):
+        os.mkdir(dest)
+        for filename in os.listdir(src):
+            rlink(os.path.join(src, filename), os.path.join(dest, filename))
+    else:
+        os.link(src, dest)
+
+
 def main():  # pragma: no cover
     args = parse_args()
     source = os.path.abspath(args.source)
@@ -227,7 +236,7 @@ def main():  # pragma: no cover
                     and not filename.startswith('.')):
                 srcpath = os.path.join(source, filename)
                 dstpath = os.path.join(destination, filename)
-                os.link(srcpath, dstpath)
+                rlink(srcpath, dstpath)
     elif args.cmd == 'serve':
         app = create_app(source, args)
         app.run(port=args.port)

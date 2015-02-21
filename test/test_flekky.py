@@ -13,11 +13,11 @@ except ImportError:
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, root)
 
-from flekky import flekky
+from flekky import flekky  # noqa
 
 if sys.version_info[0] < 3:
     from StringIO import StringIO
-    _str = unicode
+    _str = unicode  # noqa
 else:
     from io import StringIO
     _str = str

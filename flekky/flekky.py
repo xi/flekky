@@ -33,7 +33,9 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
 
 flekky = Blueprint('flekky', __name__)
 
-_ = lambda s: s
+
+def _(s):
+    return s
 
 
 class FlekkyPages(FlatPages):
@@ -169,8 +171,10 @@ def create_freezer(*args, **kwargs):
 
     Any arguments will be forwarded to the underlying app factory.
     """
+    def urls():
+        return (('.page', {'path': page.path}) for page in pages)
+
     freezer = Freezer(create_app(*args, **kwargs))
-    urls = lambda: (('.page', {'path': page.path}) for page in pages)
     freezer.register_generator(urls)
     return freezer
 
@@ -237,9 +241,9 @@ def main():  # pragma: no cover
 
         # copy all additional files
         for filename in os.listdir(source):
-            if (filename not in ['pages', 'static', 'templates']
-                    and not filename.startswith('_')
-                    and not filename.startswith('.')):
+            if (filename not in ['pages', 'static', 'templates'] and
+                    not filename.startswith('_') and
+                    not filename.startswith('.')):
                 srcpath = os.path.join(source, filename)
                 dstpath = os.path.join(destination, filename)
                 rlink(srcpath, dstpath)

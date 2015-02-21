@@ -19,7 +19,7 @@ setup(
     url='https://github.com/xi/flekky',
     install_requires=[
         'Flask>=0.10.1',
-        'Flask-FlatPages>=0.5',
+        'Flask-FlatPages>=0.6',
         'Frozen-Flask>=0.11',
         'argparse>=1.2.1',
     ],

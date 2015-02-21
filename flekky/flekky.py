@@ -17,7 +17,7 @@ from flask_frozen import Freezer
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG
-FLATPAGES_EXTENSION = '.md'
+FLATPAGES_EXTENSION = ['.html', '.md']
 
 # http://pythonhosted.org/Markdown/extensions/#officially-supported-extensions
 FLATPAGES_MARKDOWN_EXTENSIONS = [

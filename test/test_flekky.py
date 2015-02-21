@@ -5,10 +5,7 @@ from datetime import datetime
 from flask import Markup
 from werkzeug.exceptions import NotFound
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+import unittest
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, root)

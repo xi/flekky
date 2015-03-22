@@ -186,26 +186,27 @@ def parse_args(argv=None):
         argv (list): List of command line parameters.
     """
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--source', '-s', default='_source',
-                        help=_('directory where Flekky will read files '
-                        '(default: _source)'))
-    parser.add_argument('--future', action='store_true', dest='FLEKKY_FUTURE',
-                        help=_('include pages with dates in the future '
-                        '(default: false)'))
-    parser.add_argument('--unpublished', action='store_true',
-                        dest='FLEKKY_UNPUBLISHED', help=_('include '
-                        'unpublished pages (default: false)'))
+    parser.add_argument(
+        '--source', '-s', default='_source',
+        help=_('directory where Flekky will read files (default: _source)'))
+    parser.add_argument(
+        '--future', action='store_true', dest='FLEKKY_FUTURE',
+        help=_('include pages with dates in the future (default: false)'))
+    parser.add_argument(
+        '--unpublished', action='store_true', dest='FLEKKY_UNPUBLISHED',
+        help=_('include unpublished pages (default: false)'))
     subparsers = parser.add_subparsers(title=_('commands'))
 
-    parser_build = subparsers.add_parser('build', help=_('generate static '
-                                         'sites'))
-    parser_build.add_argument('--destination', '-d', default=None,
-                              help=_('directory where Flekky will write files '
-                              '(default: <source>_build)'))
+    parser_build = subparsers.add_parser(
+        'build', help=_('generate static sites'))
+    parser_build.add_argument(
+        '--destination', '-d', default=None,
+        help=_('directory where Flekky will write files '
+               '(default: <source>_build)'))
     parser_build.set_defaults(cmd='build')
 
-    parser_serve = subparsers.add_parser('serve', help=_('run a test server '
-                                         'for development'))
+    parser_serve = subparsers.add_parser(
+        'serve', help=_('run a test server for development'))
     parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
 

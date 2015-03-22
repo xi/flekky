@@ -101,8 +101,8 @@ class TestFilters(TestCase):
 class TestRoutes(TestCase):
     def test_page(self):
         with self.app.request_context(ENVIRON):
-            self.assertTrue(isinstance(flekky.page('test'), _str))
-            self.assertRaises(NotFound, flekky.page, 'nonexistent')
+            self.assertTrue(isinstance(flekky.page_route('test'), _str))
+            self.assertRaises(NotFound, flekky.page_route, 'nonexistent')
 
 
 class TestFreeze(unittest.TestCase):

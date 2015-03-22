@@ -113,7 +113,7 @@ def filter_time(dt, format="%X"):
 def filter_link_page(page):
     """Convert page object to an HTML link to that page."""
     if page is not None:
-        href = url_for('flekky.page', path=page.path)
+        href = url_for('flekky.page_route', path=page.path)
         text = page.meta['title']
         return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
@@ -139,7 +139,7 @@ def _site(pages):
 
 @flekky.route('/', defaults={'path': 'index'})
 @flekky.route('/<path:path>/')
-def page(path):
+def page_route(path):
     page = pages.get_or_404(path)
     template = 'layout/%s.html' % page.meta.get('layout', 'default')
     return render_template(template, page=page, site=_site(pages))
@@ -172,7 +172,7 @@ def create_freezer(*args, **kwargs):
     Any arguments will be forwarded to the underlying app factory.
     """
     def urls():
-        return (('.page', {'path': page.path}) for page in pages)
+        return (('.page_route', {'path': page.path}) for page in pages)
 
     freezer = Freezer(create_app(*args, **kwargs))
     freezer.register_generator(urls)

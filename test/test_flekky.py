@@ -1,5 +1,8 @@
 import sys
 import os
+from random import randint
+from shutil import rmtree
+from time import sleep
 
 from datetime import datetime
 from flask import Markup
@@ -161,6 +164,95 @@ class TestArgs(unittest.TestCase):
     def test_help(self):
         self.assertRaises(SystemExit, flekky.parse_args, ['-h'])
         self.assertTrue(self.get_out().startswith('usage'))
+
+
+class TestRLink(unittest.TestCase):
+    def setUp(self):
+        self.dirname = os.path.abspath('.tmp_%i' % randint(1000, 10000))
+        os.mkdir(self.dirname)
+
+    def tearDown(self):
+        rmtree(self.dirname)
+
+    def touch(self, path):
+        with open(path, 'a'):
+            pass
+
+    def test_file(self):
+        src = os.path.join(self.dirname, 'file')
+        dest = os.path.join(self.dirname, 'link')
+        self.touch(src)
+        flekky.rlink(src, dest)
+        self.assertTrue(os.path.samefile(src, dest))
+
+    def test_file_exists_newer(self):
+        src1 = os.path.join(self.dirname, 'file1')
+        src2 = os.path.join(self.dirname, 'file2')
+        dest = os.path.join(self.dirname, 'link')
+        self.touch(src1)
+        self.touch(src2)
+        flekky.rlink(src1, dest)
+        flekky.rlink(src2, dest)
+        self.assertFalse(os.path.samefile(src1, src2))
+        self.assertTrue(os.path.samefile(src1, dest))
+        self.assertFalse(os.path.samefile(src2, dest))
+
+    def test_file_exists_older(self):
+        src1 = os.path.join(self.dirname, 'file1')
+        src2 = os.path.join(self.dirname, 'file2')
+        dest = os.path.join(self.dirname, 'link')
+        self.touch(src1)
+        flekky.rlink(src1, dest)
+        sleep(0.1)
+        self.touch(src2)
+        flekky.rlink(src2, dest)
+        self.assertFalse(os.path.samefile(src1, src2))
+        self.assertFalse(os.path.samefile(src1, dest))
+        self.assertTrue(os.path.samefile(src2, dest))
+
+    def test_dir(self):
+        src = os.path.join(self.dirname, 'src')
+        dest = os.path.join(self.dirname, 'dest')
+        os.mkdir(src)
+        self.touch(os.path.join(src, 'file'))
+
+        flekky.rlink(src, dest)
+        self.assertTrue(os.path.samefile(
+            os.path.join(src, 'file'),
+            os.path.join(dest, 'file')))
+
+    def test_dir_dir(self):
+        src = os.path.join(self.dirname, 'src')
+        dest = os.path.join(self.dirname, 'dest')
+        os.mkdir(src)
+        os.mkdir(os.path.join(src, 'dir'))
+        self.touch(os.path.join(src, 'dir', 'file'))
+
+        flekky.rlink(src, dest)
+        self.assertTrue(os.path.samefile(
+            os.path.join(src, 'dir', 'file'),
+            os.path.join(dest, 'dir', 'file')))
+
+    def test_empty_dir(self):
+        src = os.path.join(self.dirname, 'src')
+        dest = os.path.join(self.dirname, 'dest')
+        os.mkdir(src)
+        os.mkdir(os.path.join(src, 'dir'))
+
+        flekky.rlink(src, dest)
+        self.assertTrue(os.path.isdir(os.path.join(src, 'dir')))
+
+    def test_dir_exists_file(self):
+        src = os.path.join(self.dirname, 'src')
+        dest = os.path.join(self.dirname, 'dest')
+        os.mkdir(src)
+        os.mkdir(dest)
+        os.mkdir(os.path.join(src, 'dir'))
+        self.touch(os.path.join(dest, 'dir'))
+
+        flekky.rlink(src, dest)
+        self.assertTrue(os.path.isdir(os.path.join(src, 'dir')))
+
 
 if __name__ == '__main__':
     unittest.main()

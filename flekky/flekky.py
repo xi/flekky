@@ -118,7 +118,7 @@ def filter_link_page(page):
         return Markup('<a href="%s">%s</a>' % (href, escape(text)))
 
 
-def _site(pages):
+def _site(_pages):
     """Construct site wide variables.
 
     ... as opposed to page specific variables.
@@ -126,11 +126,11 @@ def _site(pages):
     site = {
         'title': 'Flekky',
         'time': datetime.now(),
-        'pages': pages,
+        'pages': _pages,
         'config': current_app.config,
     }
 
-    index = pages.get('index')
+    index = _pages.get('index')
     if hasattr(index, 'meta'):
         site.update(index.meta)
 

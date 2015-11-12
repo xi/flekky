@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """Static website generator inspired by jekyll based on flask."""
 
+__version__ = '0.1.1'
+
 # Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-\
 # yet-powerful-static-website-generator-with-flask/.
 
@@ -186,6 +188,8 @@ def parse_args(argv=None):
         argv (list): List of command line parameters.
     """
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        '--version', '-V', action='version', version=__version__)
     parser.add_argument(
         '--source', '-s', default='_source',
         help=_('directory where Flekky will read files (default: _source)'))

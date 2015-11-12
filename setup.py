@@ -2,18 +2,20 @@
 
 from setuptools import setup, find_packages
 import os
+import re
 
-root = os.path.dirname(os.path.abspath(__file__))
+DIRNAME = os.path.abspath(os.path.dirname(__file__))
+rel = lambda *parts: os.path.abspath(os.path.join(DIRNAME, *parts))
 
-with open(os.path.join(root, 'README.rst')) as fh:
-    readme = fh.read()
-
+README = open(rel('README.rst')).read()
+FLEKKY = open(rel('flekky', 'flekky.py')).read()
+VERSION = re.search("__version__ = '([^']+)'", FLEKKY).group(1)
 
 setup(
     name='flekky',
-    version='0.1.1',
+    version=VERSION,
     description="Static website generator inspired by jekyll based on flask.",
-    long_description=readme,
+    long_description=README,
     author='Tobias Bengfort',
     author_email='tobias.bengfort@gmx.net',
     url='https://github.com/xi/flekky',

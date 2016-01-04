@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.2.0 (2016-01-04)
+------------------
+
+- allow HTML pages
+- drop support for python2.6
+- add support for python3.4
+- rename ``flekky.page`` to ``flekky.page_route``, so calls to ``url_for`` need
+  to be adjusted
+- add ``--version`` command line option
+
 
 0.1.1 (2015-02-06)
 ------------------

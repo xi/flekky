@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Static website generator inspired by jekyll based on flask."""
 
-__version__ = '0.1.1'
+__version__ = '0.2.0'
 
 # Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-\
 # yet-powerful-static-website-generator-with-flask/.

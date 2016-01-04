@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
 import os
 import re
+from setuptools import setup, find_packages
 
 DIRNAME = os.path.abspath(os.path.dirname(__file__))
 rel = lambda *parts: os.path.abspath(os.path.join(DIRNAME, *parts))
@@ -10,6 +10,7 @@ rel = lambda *parts: os.path.abspath(os.path.join(DIRNAME, *parts))
 README = open(rel('README.rst')).read()
 FLEKKY = open(rel('flekky', 'flekky.py')).read()
 VERSION = re.search("__version__ = '([^']+)'", FLEKKY).group(1)
+
 
 setup(
     name='flekky',

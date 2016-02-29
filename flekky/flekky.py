@@ -17,7 +17,7 @@ from flask import Markup, escape
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG

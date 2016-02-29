@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 """Static website generator inspired by jekyll based on flask."""
 
-__version__ = '0.2.0'
-
 # Based on the tutorial on https://nicolas.perriault.net/code/2012/dead-easy-\
 # yet-powerful-static-website-generator-with-flask/.
 
@@ -18,6 +16,8 @@ from flask import current_app, url_for
 from flask import Markup, escape
 from flask_flatpages import FlatPages
 from flask_frozen import Freezer
+
+__version__ = '0.2.0'
 
 DEBUG = True
 FLATPAGES_AUTO_RELOAD = DEBUG

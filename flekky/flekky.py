@@ -176,7 +176,9 @@ def create_freezer(*args, **kwargs):
     Any arguments will be forwarded to the underlying app factory.
     """
     def urls():
-        return (('.page_route', {'path': page.path}) for page in pages)
+        yield '.page_route', {'path': '/'}
+        for page in pages:
+            yield '.page_route', {'path': page.path}
 
     freezer = Freezer(create_app(*args, **kwargs))
     freezer.register_generator(urls)

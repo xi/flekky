@@ -113,7 +113,8 @@ class TestFreeze(unittest.TestCase):
         source = os.path.join(root, '_example')
         self.freezer = flekky.create_freezer(source)
         expected = set(['/static/css/style.css', '/test/', '/lorem ipsum/',
-                        '/tag/test/', '/tag/example/', '/category/greeting/'])
+                        '/tag/test/', '/tag/example/', '/category/greeting/',
+                        '/'])
         actual = set(self.freezer.all_urls())
         self.assertSetEqual(actual, expected)
 

@@ -29,6 +29,10 @@ Quickstart
 Basic Usage
 ===========
 
+To start a new project, run the ``init`` command::
+
+    $ flekky init
+
 You can generate static HTML by using the ``build`` command::
 
     $ flekky build

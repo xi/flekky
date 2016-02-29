@@ -29,6 +29,12 @@ setup(
     test_suite='test',
     platforms='any',
     packages=find_packages(),
+    package_data={'flekky': [
+        'init/pages/index.md',
+        'init/static/css/style.css',
+        'init/templates/base.html',
+        'init/templates/layout/default.html',
+    ]},
     license='GPLv3+',
     entry_points={'console_scripts': 'flekky=flekky.flekky:main'},
     classifiers=[

@@ -9,7 +9,9 @@ __version__ = '0.2.0'
 
 import os
 import argparse
+import shutil
 from datetime import date, datetime
+from pkg_resources import resource_filename
 
 from flask import Flask, Blueprint, render_template
 from flask import current_app, url_for
@@ -214,6 +216,10 @@ def parse_args(argv=None):
     parser_serve.add_argument('--port', '-p', type=int, default=8000)
     parser_serve.set_defaults(cmd='serve')
 
+    parser_build = subparsers.add_parser(
+        'init', help=_('bootstrap a new project'))
+    parser_build.set_defaults(cmd='init')
+
     return parser.parse_args(argv)
 
 
@@ -255,6 +261,10 @@ def main():  # pragma: no cover
     elif args.cmd == 'serve':
         app = create_app(source, args)
         app.run(port=args.port)
+    elif args.cmd == 'init':
+        init = resource_filename(__name__, 'init')
+        shutil.copytree(init, source)
+        print(_('Created new project in %s.') % source)
     else:
         raise ValueError('invalid command: %s' % args.cmd)
 

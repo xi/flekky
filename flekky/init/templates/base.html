@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ site.title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+    <header>
+        <h1><a href="{{ url_for('flekky.page_route', path='/') }}">
+            {{ site.title }}
+        </a></h1>
+    </header>
+    <main>
+{% block content %}
+    <!-- Default content to be displayed -->
+{% endblock content %}
+   </main>
+   <footer>
+       <p>Generated using <a href="https://github.com/xi/flekky">Flekky</a>
+       on {{ site.time|datetime }}</p>
+   </footer>
+</body>
+</html>

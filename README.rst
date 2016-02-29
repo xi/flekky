@@ -23,7 +23,8 @@ Quickstart
 ::
 
     $ pip install flekky
-    $ flekky --source _example build
+    $ flekky init
+    $ flekky build
 
 Basic Usage
 ===========

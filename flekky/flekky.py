@@ -106,8 +106,9 @@ def filter_datetime(dt, format="%c"):
 @flekky.app_template_filter('date')
 def filter_date(dt, format="%x"):
     """Convert datetime object to HTML5 markup representing date only."""
-    return Markup('<time datetime="%s">%s</time>' % (dt.date(),
-                                                     dt.strftime(format)))
+    if isinstance(dt, datetime):
+        dt = dt.date()
+    return Markup('<time datetime="%s">%s</time>' % (dt, dt.strftime(format)))
 
 
 @flekky.app_template_filter('time')

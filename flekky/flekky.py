@@ -8,6 +8,7 @@
 import os
 import argparse
 import shutil
+import locale
 from datetime import date, datetime
 from pkg_resources import resource_filename
 
@@ -34,6 +35,9 @@ FLATPAGES_MARKDOWN_EXTENSIONS = [
     'wikilinks',
     'toc',
 ]
+
+# https://docs.python.org/3/library/locale.html#locale.setlocale
+locale.setlocale(locale.LC_ALL, '')
 
 flekky = Blueprint('flekky', __name__)
 

@@ -3,6 +3,7 @@ import os
 from random import randint
 from shutil import rmtree
 from time import sleep
+import locale
 
 from datetime import datetime
 from flask import Markup
@@ -12,6 +13,8 @@ import unittest
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, root)
+
+locale.setlocale(locale.LC_ALL, 'C')
 
 from flekky import flekky  # noqa
 

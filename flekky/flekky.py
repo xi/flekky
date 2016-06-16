@@ -12,10 +12,12 @@ import locale
 from datetime import date, datetime
 from pkg_resources import resource_filename
 
+from bs4 import BeautifulSoup
+
 from flask import Flask, Blueprint, render_template
 from flask import current_app, url_for
 from flask import Markup, escape
-from flask_flatpages import FlatPages
+from flask_flatpages import FlatPages, Page
 from flask_frozen import Freezer
 
 __version__ = '0.3.0'
@@ -44,6 +46,31 @@ flekky = Blueprint('flekky', __name__)
 
 def _(s):
     return s
+
+
+def shift_headings(html, offset):
+    if offset == 0:
+        return html
+
+    soup = BeautifulSoup(html, 'html.parser')
+
+    order = range(1, 6)
+    if offset > 0:
+        order = reversed(order)
+
+    for i in order:
+        j = min(max(i + offset, 1), 6)
+        for tag in soup.find_all('h%i' % i):
+            tag.name = 'h%i' % j
+
+    return soup.prettify()
+
+
+def page_fix_outline(self, base_heading_level):
+    return shift_headings(self.html, base_heading_level - 1)
+
+
+Page.fix_outline = page_fix_outline
 
 
 class FlekkyPages(FlatPages):

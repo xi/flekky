@@ -129,6 +129,11 @@ templates. But some fields also have a special meaning:
    website. This can be disabled using the ``--future`` command-line
    option.
 
+The content of a page can be accessed via its ``html`` attribute. However,
+in many cases you may want to shift all headings by one or two levels in order
+to fit the content into the document outline. This can be done by using
+``fix_outline(baseheading_level)``.
+
 site
 ----
 

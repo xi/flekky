@@ -24,6 +24,7 @@ setup(
         'Flask>=0.10.1',
         'Flask-FlatPages>=0.6',
         'Frozen-Flask>=0.11',
+        'beautifulsoup4>=4.4.0',
         'argparse>=1.2.1',
     ],
     test_suite='test',

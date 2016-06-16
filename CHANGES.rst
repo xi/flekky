@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.4.0 (2016-06-16)
+------------------
+
+- add ``fix_outline`` method to pages
+- use actual locale instead of C
+- fix some date/datetime related crashes
+
+
 0.3.0 (2016-02-29)
 ------------------
 

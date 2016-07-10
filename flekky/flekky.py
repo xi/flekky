@@ -63,7 +63,7 @@ def shift_headings(html, offset):
         for tag in soup.find_all('h%i' % i):
             tag.name = 'h%i' % j
 
-    return soup.prettify()
+    return str(soup)
 
 
 def page_fix_outline(self, base_heading_level):

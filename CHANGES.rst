@@ -1,6 +1,14 @@
 Changelog
 =========
 
+
+0.4.1 (2016-12-22)
+------------------
+
+- work around a bug in beautifulsoup where whitespace was added in inline
+  elements
+
+
 0.4.0 (2016-06-16)
 ------------------
 

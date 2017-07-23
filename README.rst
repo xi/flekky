@@ -1,3 +1,10 @@
+Deprecated
+==========
+
+I have switched to a simpler build systems based on Makefiles and trivial
+templating, so this project will no longer be maintained.
+
+
 About
 =====
 
